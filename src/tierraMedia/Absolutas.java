@@ -6,5 +6,12 @@ public class Absolutas extends Promociones{
 		super(costo, tiempo, tipo);
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Override
+	public void aplicarPromocion() {
+		//costo = suma de los costos - descuento
+	
+	}
+	
 
 }
