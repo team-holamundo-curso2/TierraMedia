@@ -1,0 +1,10 @@
+package tierraMedia;
+
+public class Porcentuales extends Promociones{
+
+	public Porcentuales(double costo, double tiempo, TIPO_DE_ATRACCION tipo) {
+		super(costo, tiempo, tipo);
+		// TODO Auto-generated constructor stub
+	}
+
+}
