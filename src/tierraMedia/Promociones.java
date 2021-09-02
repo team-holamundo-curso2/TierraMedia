@@ -4,15 +4,27 @@ import java.util.List;
 
 public class Promociones extends Producto {
 
-	protected TIPO_DE_ATRACCION tipo;
-	protected static TIPO_DE_PROMOCIONES promociones;
-	private List<Atracciones> atracciones;
+	protected TIPO_DE_PROMOCIONES tipoPromo;
+	protected List<Atracciones> atracciones;
+	protected int cantidadDeAtracciones;
+	protected List<Promociones> promos;
 
-	public Promociones(double costo, double tiempo, TIPO_DE_ATRACCION tipo) {
-		super(costo, tiempo, tipo);
+	public Promociones(TIPO_DE_ATRACCION tipo, TIPO_DE_PROMOCIONES promociones, int cantidad,
+			List<Atracciones> atracciones) {
+		super(tipo);
+		this.tipoPromo = promociones;
+		this.cantidadDeAtracciones = cantidad;
+		this.atracciones = atracciones;
+
 	}
 
-	public void aplicarPromocion() {
+	public double aplicarPromocion() {
+		return this.costo;
 	}
+
+	//FALTA DEFINIR UN TOSTRING PARA CUANDO CREEMOS LA LISTA DE PROMOCIONES. PERO PARA QUE ESO QUEDE BIEN
+	// PRIMERO HAY QUE TERMINAR DE DEFINRI EL CONSUTRCTOR Y TERMINAR EL LECTOR. 
+	
+	
 
 }

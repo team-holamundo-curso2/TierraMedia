@@ -1,17 +1,19 @@
 package tierraMedia;
 
-public class Absolutas extends Promociones{
+import java.util.List;
 
-	public Absolutas(double costo, double tiempo, TIPO_DE_ATRACCION tipo) {
-		super(costo, tiempo, tipo);
-		// TODO Auto-generated constructor stub
+public class Absolutas extends Promociones {
+
+	public Absolutas(TIPO_DE_ATRACCION tipo, TIPO_DE_PROMOCIONES promociones, int cantidad, double costo,
+			List<Atracciones> atracciones) {
+		super(tipo, promociones, cantidad, atracciones);
+		if (this.tipoPromo == TIPO_DE_PROMOCIONES.ABSOLUTAS) {
+			this.costo = this.aplicarPromocion(costo);
+		}
 	}
-	
-	@Override
-	public void aplicarPromocion() {
-		//costo = suma de los costos - descuento
-	
+
+	public double aplicarPromocion(double costo) {
+		return costo;
 	}
-	
 
 }

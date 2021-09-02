@@ -1,10 +1,13 @@
 package tierraMedia;
 
+import java.util.List;
+
 public class Atracciones extends Producto {
 
 	private Lector lector;
 	private int cupoDePersonas;
 	private String nombre;
+	private static List<Atracciones> atracciones;
 
 	public Atracciones(String nombre, double costo, double tiempo, int cupoDePersonas, TIPO_DE_ATRACCION tipo) {
 		super(costo, tiempo, tipo);
@@ -32,5 +35,11 @@ public class Atracciones extends Producto {
 
 	public TIPO_DE_ATRACCION obtenerTipo() {
 		return super.tipo;
+	}
+	
+	public static void main(String[] args) {
+		LectorAtracciones atr = new LectorAtracciones();
+		Atracciones.atracciones = atr.leerAtracciones();
+		System.out.println(atracciones);
 	}
 }

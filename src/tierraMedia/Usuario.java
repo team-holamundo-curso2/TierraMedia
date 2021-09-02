@@ -1,11 +1,15 @@
 package tierraMedia;
 
+import java.util.List;
+import java.util.Scanner;
+
 public class Usuario {
+
 	private int monedas;
 	private String nombre;
 	private int tiempoDisponible;
 	public TIPO_DE_ATRACCION preferencia;
-	private Producto[] itinerario;
+	private List<Producto> itinerario;
 
 	public Usuario() {
 	}
@@ -18,37 +22,60 @@ public class Usuario {
 
 	}
 
-	// FALTA AGREGAR EXCEPTION
-	public void ofertasAceptadas(Producto[] productosAOfrecer) {
-		for (int i = 0; i < productosAOfrecer.length; i++)// FALTA AGREGAR ==> POR CADA LINEA SI ACEPTA O NO ==> scanner
-															// system.in
-			if (aceptar(productosAOfrecer)) {
-				while (this.monedas > productosAOfrecer[i].costo
-						&& this.tiempoDisponible > productosAOfrecer[i].tiempoDeDuracion) {
-					this.monedas -= productosAOfrecer[i].costo;
-					this.tiempoDisponible -= productosAOfrecer[i].tiempoDeDuracion;
+	// FALTA AGREGAR EXCEPTION y AMOLDAR A LAS NUEVAS COLECCIONES
+	// EL SCANNER LO ARME DE ESTA FORMA PORQUE ES COMO LO FUE DEFINIENDO EL PROFE
+	// DEL TEORICO + ALGUNA GILADA QUE VI POR INTERNET
+	// PERO NO SÉ SI REALMENTE FUNCIONA ASI, NO PUDE INVESTIGAR MUCHO MAS.
+
+	public void ofertasAceptadas(List<Producto> productosAOfrecer) {
+		// ESTO DE SCANNER NO SÉ SI VA ACÁ
+		String entradaTeclado = "";
+		Scanner entradaEscaner = new Scanner(System.in); // Creación de un objeto Scanner
+		entradaTeclado = entradaEscaner.nextLine(); // Invocamos un método sobre un objeto Scanner
+
+		for (Producto ofrecer : productosAOfrecer) {
+			if (entradaTeclado == "Si") {
+				while (this.monedas > ofrecer.costo && this.tiempoDisponible > ofrecer.tiempoDeDuracion) { // HAY QUE
+																											// AGREGAR
+																											// LA
+																											// CONDICION
+																											// DE NO
+																											// REPETIR
+																											// ATRACCIONES
+																											// (USAR
+																											// COMO
+																											// EJEMPLO
+																											// LAS
+																											// SUBCLASES
+																											// DE
+																											// PROMOCIONES)
+					aceptar(ofrecer);
+					itinerario.add(ofrecer);
 				}
-				this.itinerario[i] = productosAOfrecer[i]; // SI ACEPTA, GUARDA EN LISTA ITINERARIO
 			}
+		}
+		entradaEscaner.close();
 	}
 
-	public Producto[] getItinerario() {
+	public List<Producto> obtenerItinerario() {
 		System.out.println(this.itinerario); // Imprime por pantalla
 		return this.itinerario; // Retorna el itinerario.
 	}
 
-	public String resumenItinerario(Producto[] itinerario) { // RESUMEN DEL GASTO TOTAL Y EL TIEMPO TOTAL DE SU
-																// ITINERARIO
-		int costoTotal = 0;
-		int tiempoTotal = 0;
-		for (Producto suma : itinerario) {
+	public String resumenItinerario() { // RESUMEN DEL GASTO TOTAL Y EL TIEMPO TOTAL DE SU ITINERARIO
+		double costoTotal = 0;
+		double tiempoTotal = 0;
+		for (Producto suma : this.itinerario) {
 			costoTotal += suma.costo;
 			tiempoTotal += suma.tiempoDeDuracion;
 		}
 		return "Costo Total =" + costoTotal + ", Tiempo Total =" + tiempoTotal;
+
 	}
 
-	public boolean aceptar(Producto[] productosAOfrecer) {
+	public boolean aceptar(Producto producto) {
+		this.monedas -= producto.costo;
+		this.tiempoDisponible -= producto.tiempoDeDuracion;
 		return true;
 	}
 
@@ -57,5 +84,4 @@ public class Usuario {
 		return "Usuario [monedas=" + monedas + ", nombre=" + nombre + ", tiempoDisponible=" + tiempoDisponible
 				+ ", preferencia=" + preferencia + "]";
 	}
-
 }
