@@ -1,0 +1,9 @@
+AVENTURA,PORCENTUALES,2,Bosque Negro,Mordor
+DEGUSTACION,ABSOLUTAS,2,Lothlorien,La Comarca
+PAISAJE,AXB,3,Minas Tirith,Abismo de Helm,Erebor
+
+
+
+Tipo de atraccion, porcentuales, cantidad de atracciones, atracciones para la lista, porcentaje
+Tipo de atraccion, absolutas , cantidad de atracciones, atracciones para la lista, costo
+Tipo de atraccion, axb , cantidad de atracciones, atracciones para la lista, atraccion gratuita
