@@ -2,7 +2,7 @@ package tierraMedia;
 
 import java.util.List;
 
-public class Promociones extends Producto {
+public abstract class Promociones extends Producto {
 
 	protected TIPO_DE_PROMOCIONES tipoPromo;
 	protected List<Atracciones> atracciones;
@@ -18,9 +18,8 @@ public class Promociones extends Producto {
 
 	}
 
-	public double aplicarPromocion() {
-		return this.costo;
-	}
+	
+	public abstract void  aplicarPromocion();{}
 
 	//FALTA DEFINIR UN TOSTRING PARA CUANDO CREEMOS LA LISTA DE PROMOCIONES. PERO PARA QUE ESO QUEDE BIEN
 	// PRIMERO HAY QUE TERMINAR DE DEFINRI EL CONSUTRCTOR Y TERMINAR EL LECTOR. 

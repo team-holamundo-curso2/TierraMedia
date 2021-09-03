@@ -40,15 +40,18 @@ public class LectorPromociones {
 		}
 		return promociones;
 	}
-	
-	//Al crear las promociones directamente las tendriamos que crear de uno de los tres tipos, 
-	//Aca tengo dudas si tambien promociones tendria que ser abstracta, porque no existe una promocion 
-	//que no sea ninguna de los tres tipos definidos
 
+//If (tipo de promocion?) y invoque a los constructores que corresponden.
+//da error porque promociones quedo como abstracta
 	private Promociones crearPromocion(String linea) {
 		String[] lin = linea.split(",");
-		return new Promociones(TIPO_DE_ATRACCION.valueOf(lin[0]), TIPO_DE_PROMOCIONES.valueOf(lin[1]), //HAY QUE DEFINIR MEJOR EL CONSTRUCTOR DE PROMOCIONES.
-				Integer.parseInt(lin[2]), null);                                                             // SEGUN EL EJEMPLO QUE EL PROFE DIO EN CLASE, QUE ES DISTINTO A COMO
-		                                                                                               // LO TENEMOS NOSOTROS EN NUESTRO TXT. QUEDO ESO PARA REVISAR. 
+		return new Promociones(TIPO_DE_ATRACCION.valueOf(lin[0]), TIPO_DE_PROMOCIONES.valueOf(lin[1]), // HAY QUE
+																										// DEFINIR MEJOR
+																										// EL
+																										// CONSTRUCTOR
+																										// DE
+																										// PROMOCIONES.
+				Integer.parseInt(lin[2]), null); // SEGUN EL EJEMPLO QUE EL PROFE DIO EN CLASE, QUE ES DISTINTO A COMO
+		// LO TENEMOS NOSOTROS EN NUESTRO TXT. QUEDO ESO PARA REVISAR.
 	}
 }

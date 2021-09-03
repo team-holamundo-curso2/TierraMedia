@@ -8,13 +8,13 @@ public class AXB extends Promociones {
 	public AXB(TIPO_DE_ATRACCION tipo, TIPO_DE_PROMOCIONES promociones, int cantidad, double costo,
 			List<Atracciones> atracciones) {
 		super(tipo, promociones, cantidad, atracciones);
-		if (this.tipoPromo == TIPO_DE_PROMOCIONES.AXB) {
-			this.costo = this.aplicarPromocion();
-		}
+		
+		this.aplicarPromocion();
+		
 	}
 
 	@Override
-	public double aplicarPromocion() {
+	public void aplicarPromocion() {
 		double costoTotal = 0;
 		double tiempoTotal = 0;
 		List<String> nuevasA = new ArrayList<String>();
@@ -29,7 +29,7 @@ public class AXB extends Promociones {
 			}
 		}
 		this.tiempoDeDuracion = tiempoTotal;
-		return costoTotal;
+		this.costo = costoTotal;
 	}
 
 }

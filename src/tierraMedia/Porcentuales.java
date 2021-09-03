@@ -3,19 +3,18 @@ package tierraMedia;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Porcentuales extends Promociones{
-	
-	//Las preguntas de los if sobre los que van en la clase porcentuales no deberian  ir en el momento que se los crea, o
-	//o sea en el archivo de lector de promociones
+public class Porcentuales extends Promociones {
+	private Double porcentaje;
+
+	// Despejar los if de confirmacion de tipo de promocion
 	public Porcentuales(TIPO_DE_ATRACCION tipo, TIPO_DE_PROMOCIONES promociones, int cantidad,
-			List<Atracciones> atracciones) {
+			List<Atracciones> atracciones, double porcentaje) {
 		super(tipo, promociones, cantidad, atracciones);
-		if (this.tipoPromo == TIPO_DE_PROMOCIONES.PORCENTUALES) {
-			this.costo = this.aplicarPromocion();
-		}
+		this.aplicarPromocion();
 	}
 
-	public double aplicarPromocion(double porcentaje) {
+	@Override
+	public void aplicarPromocion() {
 		double costoTotal = 0;
 		double tiempoTotal = 0;
 		List<String> nuevasA = new ArrayList<String>();
@@ -26,10 +25,11 @@ public class Porcentuales extends Promociones{
 				for (int i = 1; i == this.cantidadDeAtracciones; i++) {
 					costoTotal += atraccion.costo;
 					tiempoTotal += atraccion.tiempoDeDuracion;
-			}
+				}
 			}
 		}
 		this.tiempoDeDuracion = tiempoTotal;
-		return costoTotal * (1 + (porcentaje / 100));
+		this.costo = costoTotal * (1 + (this.porcentaje / 100));
 	}
+
 }

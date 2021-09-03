@@ -33,22 +33,13 @@ public class Usuario {
 		Scanner entradaEscaner = new Scanner(System.in); // Creación de un objeto Scanner
 		entradaTeclado = entradaEscaner.nextLine(); // Invocamos un método sobre un objeto Scanner
 
+		// iMPRIMIR LA PREGUNTA (oferta). y revisar orden de oferta.
 		for (Producto ofrecer : productosAOfrecer) {
-			if (entradaTeclado == "Si") {
-				while (this.monedas > ofrecer.costo && this.tiempoDisponible > ofrecer.tiempoDeDuracion) { // HAY QUE
-																											// AGREGAR
-																											// LA
-																											// CONDICION
-																											// DE NO
-																											// REPETIR
-																											// ATRACCIONES
-																											// (USAR
-																											// COMO
-																											// EJEMPLO
-																											// LAS
-																											// SUBCLASES
-																											// DE
-																											// PROMOCIONES)
+
+			while (this.monedas > ofrecer.costo && this.tiempoDisponible > ofrecer.tiempoDeDuracion) { // HAY QUE
+																										// AGREGAR
+				if (entradaTeclado == "Si") { // LA
+
 					aceptar(ofrecer);
 					itinerario.add(ofrecer);
 				}
