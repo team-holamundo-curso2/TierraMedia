@@ -18,9 +18,11 @@ public class LectorAtracciones {
 			br = new BufferedReader(fr);
 			String linea = br.readLine();
 			while (linea != null) {
+
 				Atracciones nuevaAtraccion = crearAtraccion(linea);
 				atracciones.add(nuevaAtraccion);
 				linea = br.readLine();
+
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -43,8 +45,16 @@ public class LectorAtracciones {
 
 	private Atracciones crearAtraccion(String linea) {
 		String[] lin = linea.split(",");
-		return new Atracciones(lin[0], Double.parseDouble(lin[1]), Double.parseDouble(lin[2]), Integer.parseInt(lin[3]),
-				TIPO_DE_ATRACCION.valueOf(lin[4]));
+		if (lin.length != 5) {
+			throw new AtraccionException("La cantidad de argumentos no son los correctos para un Usuario");
+		}
+		try {
+			return new Atracciones(TIPO_DE_ATRACCION.valueOf(lin[0]), lin[3], Double.parseDouble(lin[1]),
+					Double.parseDouble(lin[2]), Integer.parseInt(lin[4]));
+
+		} catch (AtraccionException ae) {
+			throw new AtraccionException("La cantidad de argumentos no son los correctos para un Usuario");
+		}
 	}
 
 }

@@ -44,7 +44,14 @@ public class LectorUsuario {
 
 	private Usuario crearUsuario(String linea) {
 		String[] lin = linea.split(",");
-		return new Usuario(lin[0], TIPO_DE_ATRACCION.valueOf(lin[1]), Integer.parseInt(lin[2]),
-				Integer.parseInt(lin[3]));
+		if(lin.length != 4) {
+			throw new UsuarioException("La cantidad de argumento no son los correctos para un Usuario");
+		}
+		try{
+			return new Usuario(lin[0], TIPO_DE_ATRACCION.valueOf(lin[1]), Double.parseDouble(lin[2]),
+				Double.parseDouble(lin[2]));
+		}catch(UsuarioException ue) {
+			throw new UsuarioException("La cantidad de argumento no son los correctos para un Usuario");
+		}
 	}
 }

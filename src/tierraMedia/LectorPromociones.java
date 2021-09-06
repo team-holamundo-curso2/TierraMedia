@@ -11,16 +11,16 @@ public class LectorPromociones {
 	private FileReader fr = null;
 	private BufferedReader br = null;
 
-	public List<Promociones> leerPromociones() {
+	public List<Promociones> leerPromociones(List<Atracciones> atrList) {
 		List<Promociones> promociones = new ArrayList<Promociones>();
 		try {
 			fr = new FileReader("archivos/promociones.txt");
 			br = new BufferedReader(fr);
 			String linea = br.readLine();
 			while (linea != null) {
-				Promociones nuevaPromocion = crearPromocion(linea);
-				promociones.add(nuevaPromocion);
+				promociones.addAll(crearPromocion(linea, atrList));
 				linea = br.readLine();
+
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -41,17 +41,70 @@ public class LectorPromociones {
 		return promociones;
 	}
 
-//If (tipo de promocion?) y invoque a los constructores que corresponden.
-//da error porque promociones quedo como abstracta
-	private Promociones crearPromocion(String linea) {
+	private ArrayList<Promociones> crearPromocion(String linea, List<Atracciones> atracciones) {
 		String[] lin = linea.split(",");
-		return new Promociones(TIPO_DE_ATRACCION.valueOf(lin[0]), TIPO_DE_PROMOCIONES.valueOf(lin[1]), // HAY QUE
-																										// DEFINIR MEJOR
-																										// EL
-																										// CONSTRUCTOR
-																										// DE
-																										// PROMOCIONES.
-				Integer.parseInt(lin[2]), null); // SEGUN EL EJEMPLO QUE EL PROFE DIO EN CLASE, QUE ES DISTINTO A COMO
-		// LO TENEMOS NOSOTROS EN NUESTRO TXT. QUEDO ESO PARA REVISAR.
+		List<Atracciones> atr = new ArrayList<Atracciones>();
+		ArrayList<Promociones> nuevasPromociones = new ArrayList<Promociones>();
+		if (TIPO_DE_PROMOCIONES.valueOf(lin[1].toUpperCase()).equals(TIPO_DE_PROMOCIONES.ABSOLUTAS)) {
+			nuevasPromociones.add(promoAbsolutas(atracciones, lin, atr));
+		} else if (TIPO_DE_PROMOCIONES.valueOf(lin[1].toUpperCase()).equals(TIPO_DE_PROMOCIONES.PORCENTUALES)) {
+			nuevasPromociones.add(promoPorcentuales(atracciones, lin, atr));
+		} else if (TIPO_DE_PROMOCIONES.valueOf(lin[1].toUpperCase()).equals(TIPO_DE_PROMOCIONES.AXB)) {
+			nuevasPromociones.add(promoAXB(atracciones, lin, atr));
+		}
+
+		return nuevasPromociones;
+
 	}
+
+	private Absolutas promoAbsolutas(List<Atracciones> atracciones, String[] lin, List<Atracciones> atr) {
+		for (Atracciones atraccion : atracciones) {
+			if (atraccion.tipo.equals(TIPO_DE_ATRACCION.valueOf(lin[0].toUpperCase()))) {
+				for (int i = 5; i < 5 + Integer.parseInt(lin[4]); i++) {
+					if (atraccion.obtenerNombre().equals(lin[i])) {
+						atr.add(atraccion);
+					}
+
+				}
+			}
+		}
+		return new Absolutas(TIPO_DE_ATRACCION.valueOf(lin[0].toUpperCase()), lin[2],
+				TIPO_DE_PROMOCIONES.valueOf(lin[1].toUpperCase()), Double.parseDouble(lin[3]), Integer.parseInt(lin[4]),
+				atr);
+	}
+
+	private Porcentuales promoPorcentuales(List<Atracciones> atracciones, String[] lin, List<Atracciones> atr) {
+
+		for (Atracciones atraccion : atracciones) {
+			if (atraccion.tipo.equals(TIPO_DE_ATRACCION.valueOf(lin[0].toUpperCase()))) {
+				for (int i = 5; i < 5 + Integer.parseInt(lin[4]); i++) {
+					if (atraccion.obtenerNombre().equals(lin[i])) {
+						atr.add(atraccion);
+					}
+
+				}
+			}
+		}
+
+		return new Porcentuales(TIPO_DE_ATRACCION.valueOf(lin[0].toUpperCase()), lin[2],
+				TIPO_DE_PROMOCIONES.valueOf(lin[1].toUpperCase()), Double.parseDouble(lin[3]), Integer.parseInt(lin[4]),
+				atr);
+	}
+
+	private AXB promoAXB(List<Atracciones> atracciones, String[] lin, List<Atracciones> atr) {
+		for (Atracciones atraccion : atracciones) {
+			if (atraccion.tipo.equals(TIPO_DE_ATRACCION.valueOf(lin[0].toUpperCase()))) {
+				for (int i = 4; i < 4 + Integer.parseInt(lin[3]); i++) {
+					if (atraccion.obtenerNombre().equals(lin[i])) {
+						atr.add(atraccion);
+					}
+
+				}
+			}
+		}
+		
+		return new AXB(TIPO_DE_ATRACCION.valueOf(lin[0].toUpperCase()), lin[2],
+				TIPO_DE_PROMOCIONES.valueOf(lin[1].toUpperCase()), Integer.parseInt(lin[3]), atr);
+	}
+
 }

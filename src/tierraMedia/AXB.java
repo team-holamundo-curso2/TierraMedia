@@ -4,19 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AXB extends Promociones {
-
-	public AXB(TIPO_DE_ATRACCION tipo, TIPO_DE_PROMOCIONES promociones, int cantidad, double costo,
-			List<Atracciones> atracciones) {
-		super(tipo, promociones, cantidad, atracciones);
-		
-		this.aplicarPromocion();
-		
-	}
+	
 
 	@Override
-	public void aplicarPromocion() {
+	public String toString() {
+		return "AXB [tipo=" + tipo + ", tipoPromo=" + tipoPromo + ", cantidadDeAtracciones=" + cantidadDeAtracciones
+				+ ", Atracciones=" + this.atracciones + "]";
+	}
+
+	public AXB(TIPO_DE_ATRACCION tipo, String nombre, TIPO_DE_PROMOCIONES promociones, int cantidad,
+			List<Atracciones> atracciones) {
+		super(tipo, nombre, promociones, cantidad, atracciones);
+		this.costo = this.aplicarPromocion();
+
+	}
+
+	//Le tengo que restar la atraccion gratuita
+	public double aplicarPromocion() {
 		double costoTotal = 0;
-		double tiempoTotal = 0;
+
 		List<String> nuevasA = new ArrayList<String>();
 
 		for (Atracciones atraccion : this.atracciones) {
@@ -25,11 +31,14 @@ public class AXB extends Promociones {
 				for (int i = 1; i < this.cantidadDeAtracciones; i++) {
 					costoTotal += atraccion.costo;
 				}
-				tiempoTotal += atraccion.tiempoDeDuracion;
 			}
 		}
-		this.tiempoDeDuracion = tiempoTotal;
-		this.costo = costoTotal;
+		
+		return costoTotal ;
+	}
+
+	public String obtenerAtracciones(List<Promociones> promos) {
+		return null;
 	}
 
 }

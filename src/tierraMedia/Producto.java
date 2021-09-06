@@ -7,15 +7,24 @@ public abstract class Producto { // PREGUNTAR SI ES RECOMENDABLE QUE PRODUCTO SE
 	protected double costo;
 	protected double tiempoDeDuracion;
 	protected TIPO_DE_ATRACCION tipo;
+	protected String nombre;
 
-	public Producto(TIPO_DE_ATRACCION tipo) {
+	public Producto(TIPO_DE_ATRACCION tipo, String nombre) {
 		this.tipo = tipo;
 	}
+	
+	public Producto(TIPO_DE_ATRACCION tipo, String nombre,  double costo) {
+		this.tipo = tipo;
+		this.costo = costo;
+		this.nombre = nombre;
+	}
 
-	public Producto(double costo, double tiempo, TIPO_DE_ATRACCION tipo) {
+	
+	public Producto(TIPO_DE_ATRACCION tipo, String nombre, double costo, double tiempo){
 		this.costo = costo;
 		this.tiempoDeDuracion = tiempo;
 		this.tipo = tipo;
+		this.nombre = nombre;
 	}
 
 	protected double obtenerCosto() {
@@ -30,15 +39,19 @@ public abstract class Producto { // PREGUNTAR SI ES RECOMENDABLE QUE PRODUCTO SE
 	protected TIPO_DE_ATRACCION obtenerTipo() {
 		return this.tipo;
 	}
+	
+	protected String obtenerNombre() {
+		return this.nombre;
+	}
 
 	@Override
-	public String toString() { // UNA VEZ CONSEGUIDO EL PODER GENERAR UNA LISTA DE PROMOCIONES, HAY QUE DEFINIR MEJOR ESTE TOSTRING
+	public String toString() { 
 		return "Producto [costo=" + costo + ", tiempoDeDuracion=" + tiempoDeDuracion + ", tipo=" + tipo + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(costo, tiempoDeDuracion, tipo);
+		return Objects.hash(costo, nombre, tiempoDeDuracion, tipo);
 	}
 
 	@Override
@@ -51,9 +64,14 @@ public abstract class Producto { // PREGUNTAR SI ES RECOMENDABLE QUE PRODUCTO SE
 			return false;
 		Producto other = (Producto) obj;
 		return Double.doubleToLongBits(costo) == Double.doubleToLongBits(other.costo)
+				&& Objects.equals(nombre, other.nombre)
 				&& Double.doubleToLongBits(tiempoDeDuracion) == Double.doubleToLongBits(other.tiempoDeDuracion)
 				&& tipo == other.tipo;
 	}
+	
+	
+
+	
 	
 	
 }
