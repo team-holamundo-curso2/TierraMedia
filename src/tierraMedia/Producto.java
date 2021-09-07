@@ -11,6 +11,7 @@ public abstract class Producto { // PREGUNTAR SI ES RECOMENDABLE QUE PRODUCTO SE
 
 	public Producto(TIPO_DE_ATRACCION tipo, String nombre) {
 		this.tipo = tipo;
+		this.nombre = nombre;
 	}
 	
 	public Producto(TIPO_DE_ATRACCION tipo, String nombre,  double costo) {
@@ -49,6 +50,10 @@ public abstract class Producto { // PREGUNTAR SI ES RECOMENDABLE QUE PRODUCTO SE
 		return "Producto [costo=" + costo + ", tiempoDeDuracion=" + tiempoDeDuracion + ", tipo=" + tipo + "]";
 	}
 
+	public boolean esPromocion() {
+		return false;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(costo, nombre, tiempoDeDuracion, tipo);
@@ -68,9 +73,6 @@ public abstract class Producto { // PREGUNTAR SI ES RECOMENDABLE QUE PRODUCTO SE
 				&& Double.doubleToLongBits(tiempoDeDuracion) == Double.doubleToLongBits(other.tiempoDeDuracion)
 				&& tipo == other.tipo;
 	}
-	
-	
-
 	
 	
 	

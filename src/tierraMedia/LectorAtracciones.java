@@ -11,7 +11,7 @@ public class LectorAtracciones {
 	private FileReader fr = null;
 	private BufferedReader br = null;
 
-	public List<Atracciones> leerAtracciones() {
+	public List<Atracciones> leerAtracciones()  {
 		List<Atracciones> atracciones = new ArrayList<Atracciones>();
 		try {
 			fr = new FileReader("archivos/atracciones.txt");
@@ -43,17 +43,17 @@ public class LectorAtracciones {
 		return atracciones;
 	}
 
-	private Atracciones crearAtraccion(String linea) {
+	private Atracciones crearAtraccion(String linea) throws AtraccionException {
 		String[] lin = linea.split(",");
 		if (lin.length != 5) {
 			throw new AtraccionException("La cantidad de argumentos no son los correctos para un Usuario");
 		}
 		try {
-			return new Atracciones(TIPO_DE_ATRACCION.valueOf(lin[0]), lin[3], Double.parseDouble(lin[1]),
-					Double.parseDouble(lin[2]), Integer.parseInt(lin[4]));
+			return new Atracciones(TIPO_DE_ATRACCION.valueOf(lin[4]), lin[0], Double.parseDouble(lin[1]),
+					Double.parseDouble(lin[2]), Integer.parseInt(lin[3]));
 
-		} catch (AtraccionException ae) {
-			throw new AtraccionException("La cantidad de argumentos no son los correctos para un Usuario");
+		} catch (NumberFormatException AtraccionException) {
+			throw new AtraccionException("Parametro con numero invalido");
 		}
 	}
 

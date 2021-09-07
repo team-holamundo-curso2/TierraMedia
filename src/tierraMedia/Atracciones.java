@@ -2,13 +2,9 @@ package tierraMedia;
 
 import java.util.List;
 
-public class Atracciones extends Producto {
+public class Atracciones extends Producto{
 
-	@Override
-	public String toString() {
-		return "Atracciones [nombre=" + nombre + ", costo=" + costo + ", tiempoDeDuracion=" + tiempoDeDuracion
-				+ ", cupoDePersonas=" + cupoDePersonas + ", tipo=" + tipo + "]";
-	}
+
 
 	private LectorAtracciones lector;
 	private int cupoDePersonas;
@@ -19,7 +15,7 @@ public class Atracciones extends Producto {
 		this.cupoDePersonas = cupoDePersonas;
 	}
 
-	public void atraccionesRecibidas() {
+	public void atraccionesRecibidas() throws AtraccionException {
 		this.lector.leerAtracciones();
 	}
 
@@ -40,8 +36,14 @@ public class Atracciones extends Producto {
 	public TIPO_DE_ATRACCION obtenerTipo() {
 		return super.tipo;
 	}
+	
+	@Override
+	public String toString() {
+		return "Atracciones [nombre=" + nombre + ", costo=" + costo + ", tiempoDeDuracion=" + tiempoDeDuracion
+				+ ", cupoDePersonas=" + cupoDePersonas + ", tipo=" + tipo + "]";
+	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)  {
 		LectorAtracciones atr = new LectorAtracciones();
 		Atracciones.atracciones = atr.leerAtracciones();
 		System.out.println(atracciones);

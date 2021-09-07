@@ -86,8 +86,7 @@ public class LectorPromociones {
 			}
 		}
 
-		return new Porcentuales(TIPO_DE_ATRACCION.valueOf(lin[0].toUpperCase()), lin[2],
-				TIPO_DE_PROMOCIONES.valueOf(lin[1].toUpperCase()), Double.parseDouble(lin[3]), Integer.parseInt(lin[4]),
+		return new Porcentuales(TIPO_DE_ATRACCION.valueOf(lin[0].toUpperCase()), lin[2], TIPO_DE_PROMOCIONES.valueOf(lin[1].toUpperCase()), Double.parseDouble(lin[3]), Integer.parseInt(lin[4]),
 				atr);
 	}
 

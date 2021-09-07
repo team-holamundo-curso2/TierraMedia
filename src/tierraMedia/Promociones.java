@@ -26,11 +26,12 @@ public abstract class Promociones extends Producto {
 		this.atracciones = atracciones;
 
 	}
-
+	
 	public double aplicarPromocion(double costo) {
 		return costo;
 	}
 	
+		
 	//Calcula la suma de los tiempos
 	@Override
 	public double obtenerTiempo() {
@@ -41,15 +42,25 @@ public abstract class Promociones extends Producto {
 		return tiempoTotal ;
 	}
 	
+	public List<String> obtenerAtracciones(List<Atracciones> atracciones) {
+		List<String> nombres = new ArrayList<String>();
+		for (Atracciones atraccion : atracciones) {
+			nombres.add(atraccion.obtenerNombre());
+		}
+		return nombres;
+	}
 	
-	
-	
-
 	@Override
 	public String toString() {
-		return "Promociones [tipo=" + tipo + ", tipoPromo=" + tipoPromo + ", cantidadDeAtracciones="
-				+ cantidadDeAtracciones + ", costo=" + costo + ", Atracciones=" + this.atracciones + "]";
-
+		return "[Nombre=" + nombre + ", tipoPromo=" + tipoPromo + ", cantidadDeAtracciones=" + cantidadDeAtracciones
+				+ ", Atracciones=" + this.obtenerAtracciones(this.atracciones) + "]";
+	}
+	
+	
+	
+	@Override
+	public boolean esPromocion() {
+		return true;
 	}
 
 	public static void main(String[] args) {
@@ -63,6 +74,29 @@ public abstract class Promociones extends Producto {
 		promos = prom.leerPromociones(atracciones);
 		System.out.println(promos);
 
+		System.out.println("____________1_______________");
+		
+		System.out.println(promos);
+		System.out.println(promos.get(0).obtenerCosto());
+		System.out.println(promos.get(0).aplicarPromocion(20));
+		System.out.println(promos.get(0).obtenerTiempo());
+		
+System.out.println("____________2_______________");
+		
+		System.out.println(promos.get(2));
+		System.out.println(promos.get(2).obtenerCosto());
+		System.out.println(promos.get(2).obtenerTiempo());
+		
+System.out.println("____________3_______________");
+		
+		System.out.println(promos.get(1));
+		System.out.println(promos.get(1).obtenerCosto());
+		System.out.println(promos.get(1).obtenerTiempo());
+		
+System.out.println("____________4_______________");
+		
+			
+				
 	}
 
 }
