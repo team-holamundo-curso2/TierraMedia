@@ -13,8 +13,9 @@ public class Usuario {
 	public TIPO_DE_ATRACCION preferencia;
 	List<Producto> itinerario;
 
-	public Usuario() {
-	}
+//Falta mudar algunos metodos para la clase ofertable. 
+	
+	public Usuario() {}
 
 	public Usuario(String nombre, TIPO_DE_ATRACCION preferencia, double monedas, double tiempoDisponible) {
 		this.nombre = nombre;
@@ -71,7 +72,7 @@ public class Usuario {
 		String eleccion = "";
 		Scanner respuesta = new Scanner(System.in);
 
-		System.out.println("¿Acepta agregar a su itinerario " + productoAofrecer.nombre + "?");
+		System.out.println("Â¿Acepta agregar a su itinerario " + productoAofrecer.nombre + "?");
 		System.out.println("Si desea aceptar la oferta responda Si, en caso contrario escriba No");
 		try {
 					eleccion = respuesta.next().toUpperCase();

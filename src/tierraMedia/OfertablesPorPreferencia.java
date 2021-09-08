@@ -2,8 +2,12 @@ package tierraMedia;
 
 import java.util.Comparator;
 
+import java.util.Comparator;
+
 public class OfertablesPorPreferencia implements Comparator<Producto> {
 
+//Falta pasar a TIPO_de_ATRACCION los string
+	
 	private String preferencia;
 
 	public OfertablesPorPreferencia(String tipo) {

@@ -11,6 +11,9 @@ public class LectorAtracciones {
 	private FileReader fr = null;
 	private BufferedReader br = null;
 
+	/**
+	* Lectura del archivo de atracciones y creacion de la lista de atracciones.
+	*/
 	public List<Atracciones> leerAtracciones()  {
 		List<Atracciones> atracciones = new ArrayList<Atracciones>();
 		try {
@@ -43,6 +46,9 @@ public class LectorAtracciones {
 		return atracciones;
 	}
 
+	/**
+	*Creacion de cada atraccion a partir de los datos leidos por el archivo.
+	*/
 	private Atracciones crearAtraccion(String linea) throws AtraccionException {
 		String[] lin = linea.split(",");
 		if (lin.length != 5) {

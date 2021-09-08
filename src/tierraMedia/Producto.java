@@ -2,8 +2,7 @@ package tierraMedia;
 
 import java.util.Objects;
 
-public abstract class Producto { // PREGUNTAR SI ES RECOMENDABLE QUE PRODUCTO SEA UNA SUBCLASE DE TURISMO.
-
+public abstract class Producto { 
 	protected double costo;
 	protected double tiempoDeDuracion;
 	protected TIPO_DE_ATRACCION tipo;
@@ -53,7 +52,7 @@ public abstract class Producto { // PREGUNTAR SI ES RECOMENDABLE QUE PRODUCTO SE
 	public boolean esPromocion() {
 		return false;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(costo, nombre, tiempoDeDuracion, tipo);

@@ -1,7 +1,6 @@
 package tierraMedia;
 /***
- * InvalidRadioException se lanza cuando un Círculo reciben un radio igual a 0 o
- * negativo. Lo que imposibilita representar la figura en el plano
+ * Hay un error en la creacion o lectura de atracciones
  *
  */
 @SuppressWarnings("serial")

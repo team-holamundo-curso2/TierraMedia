@@ -10,6 +10,9 @@ public class Absolutas extends Promociones {
 		this.costo = aplicarPromocion(costo);
 	}
 
+	/**
+	* post: Modifica el costo de la promoción por el costo descontado que se establece por el pack.
+	*/
 	public double aplicarPromocion(double costo) {
 		return costo;
 	}

@@ -13,7 +13,9 @@ public class AXB extends Promociones {
 
 	}
 
-	
+	/**
+	* post:Al costo total se le resta el costo de la atracción de regalo.
+	*/
 	public double aplicarPromocion() {
 		double costoTotal = 0;
 		for (int i = 0; i < (this.atracciones.size() - 1); i++) {

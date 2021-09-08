@@ -11,6 +11,9 @@ public class LectorUsuario {
 	private FileReader fr = null;
 	private BufferedReader br = null;
 
+	/**
+	* Lee el archivo de usuarios y crea la lista de usuarios.
+	*/
 	public List<Usuario> leerUsuario() {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		try {
@@ -42,6 +45,9 @@ public class LectorUsuario {
 		return usuarios;
 	}
 
+	/**
+	* Crea cada usuario con los datos de archivo.
+	*/
 	private Usuario crearUsuario(String linea) throws UsuarioException {
 		String[] lin = linea.split(",");
 		if(lin.length != 4) {
