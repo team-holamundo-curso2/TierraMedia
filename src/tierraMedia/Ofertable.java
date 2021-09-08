@@ -1,5 +1,5 @@
 package tierraMedia;
 
-public class Comparable {
+public class Ofertable {
 
 }
