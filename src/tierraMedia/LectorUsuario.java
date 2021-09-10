@@ -55,7 +55,7 @@ public class LectorUsuario {
 		}
 		try{
 			return new Usuario(lin[0], TIPO_DE_ATRACCION.valueOf(lin[1]), Double.parseDouble(lin[2]),
-				Double.parseDouble(lin[2]));
+				Double.parseDouble(lin[3]));
 		}catch(NumberFormatException UsuarioException) {
 			throw new UsuarioException("La cantidad de argumento no son los correctos para un Usuario");
 		}
