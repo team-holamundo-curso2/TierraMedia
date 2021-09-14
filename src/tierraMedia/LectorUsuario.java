@@ -14,10 +14,10 @@ public class LectorUsuario {
 	/**
 	* Lee el archivo de usuarios y crea la lista de usuarios.
 	*/
-	public List<Usuario> leerUsuario() {
+	public List<Usuario> leerUsuario(String rutaUsuarios) {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		try {
-			fr = new FileReader("archivos/usuario.txt");
+			fr = new FileReader(rutaUsuarios);
 			br = new BufferedReader(fr);
 			String linea = br.readLine();
 			while (linea != null) {
@@ -60,4 +60,5 @@ public class LectorUsuario {
 			throw new UsuarioException("La cantidad de argumento no son los correctos para un Usuario");
 		}
 	}
+
 }

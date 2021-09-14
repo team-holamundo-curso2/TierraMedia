@@ -1,103 +1,71 @@
 package tierraMedia;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TurismoTierraMedia {
 
-	private List<Usuario> usuarios;
-	private List<Producto> productos;
-	private LectorUsuario lector;
+	List<Usuario> usuarios;
+	List<Atracciones> atrLista;
+	List<Producto> productosDesordenados;
+	private Ofertable ofertador;
+	private String rutaAtracciones;
+	private String rutaPromociones;
+	private String rutaUsuarios;
 
-	// EN ESTE METODO SE CREA EL LECTOR PARA QUE PUEDA GENERAR LA LISTA DE USUARIOS
-	// LEVANTANDO LOS DATOS DEL ARCHIVO.
-	public void usuariosRecibidos() {
-		this.lector = new LectorUsuario();
-		this.usuarios = this.lector.leerUsuario(); // LEO ARCHIVO USUARIO.TXT Y CREA UNA LISTA DE USUARIOS.
-	}
-	
-	//Aca quedaria un metodo que para cada usuario le genere el itinerario, pasando la lista de usuarios 
-	// y los nombre de los archivos de promos y atracciones
-	
-	
-
-	/**
-	 * Para mudar?
-	 */
-	// METODO PARA ORDENAR LAS LISTAS, Y RETORNAR UNA LISTA ORDENADA PARA OFRECERLE
-	// A CADA USUARIO SEGUN PREFERENCIA
-	public List<Producto> ordenarProductos(Usuario user, List<Producto> productosAOrdenar) {
-
-		productosAOrdenar.sort(new OfertablesPorPreferencia(user.preferencia));
-		this.productos = productosAOrdenar;
-
-		return this.productos;
-
+	public TurismoTierraMedia(String rutaU, String rutaA, String rutaP) {
+		this.rutaAtracciones = rutaA;
+		this.rutaPromociones = rutaP;
+		this.rutaUsuarios = rutaU;
 	}
 
-	// METO DONDE SE RECORRE LA LISTA DE USUARIOS Y A C/U SE LE OFRECE UNA LISTA DE
-	// PRODUCTOS ORDENADA.
-	public void sugerencias(List<Producto> productosAOrdenar) throws IOException {
-
-		for (Usuario user : this.usuarios) {
-			System.out.println("Bienvenido" + " " + user.obtenerNombre());
-			ordenarProductos(user, productosAOrdenar);
-			user.ofertasAceptadas(this.productos);
-			System.out.println(
-					"Muchas Gracias" + " " + user.obtenerNombre() + " " + "por usar nuestros servicios y productos");
-			this.imprimirEnArchivoItinerario(user);
-		}
+	public void crearListas() {
+		this.crearListaDeUsuarios();
+		this.crearListasDeProductos();
 	}
 
-	// METODO QUE GENERA EL ARCHIVO DE SALIDA.
-	public void imprimirEnArchivoItinerario(Usuario usuarioActual) throws IOException {
-		PrintWriter salida = new PrintWriter(new FileWriter("Itinerario_De_" + usuarioActual.obtenerNombre() + ".out"));
-		salida.println("Lista de Actividades");
-		for (Producto actividad : usuarioActual.itinerario) {
-			salida.println(actividad.obtenerNombre());
-		}
-		salida.println(usuarioActual.resumenItinerario());
-		salida.close();
-
+	public void crearListaDeUsuarios() {
+		LectorUsuario lector = new LectorUsuario();
+		this.usuarios = lector.leerUsuario(this.rutaUsuarios);
 	}
-	
-	/**
-	 * Fin para mudar
-	 */
 
-	public static void main(String[] args) throws IOException {
-		TurismoTierraMedia app = new TurismoTierraMedia();
-		List<Atracciones> atracciones = new ArrayList<Atracciones>();
-		List<Promociones> promos = new ArrayList<Promociones>();
-		List<Producto> productosDesordenados = new ArrayList<Producto>();
+	public List<Producto> crearListasDeProductos() {
+		
+		List<Producto> productos = new ArrayList<Producto>();
 
 		LectorAtracciones atr = new LectorAtracciones();
-		atracciones = atr.leerAtracciones();
-		System.out.println(atracciones);
-
+		this.atrLista = atr.leerAtracciones(this.rutaAtracciones);
 		LectorPromociones prom = new LectorPromociones();
-		promos = prom.leerPromociones(atracciones);
-		System.out.println(promos);
+		productos.addAll(prom.leerPromociones(atrLista, this.rutaPromociones));
+		productos.addAll(atrLista);
 
-		productosDesordenados.addAll(atracciones);
-		System.out.println(productosDesordenados);
-		productosDesordenados.addAll(promos);
-		System.out.println(productosDesordenados);
+		return this.productosDesordenados = productos;
+	}
 
-		app.usuariosRecibidos();
-		System.out.println(app.usuarios);
+	
+	public List<Producto> ordenarProductos(Usuario user) {
+		
+		List<Producto> productosOrdenados = new ArrayList<Producto>();
 
-		System.out.println("__________________________");
+		this.productosDesordenados.sort(new OfertablesPorPreferencia(user.obtenerPreferencia()));
+		productosOrdenados.addAll(productosDesordenados);
 
-		for (Usuario user : app.usuarios) {
-			app.ordenarProductos(user, productosDesordenados);
-			System.out.println(app.productos);
+		return productosOrdenados;
+	}
+
+	public void sugerencias() throws IOException {
+
+		for (Usuario user : this.usuarios) {
+
+			this.ofertador = new Ofertable(user, this.ordenarProductos(user));
+			System.out.println("Bienvenido" + user.obtenerNombre());
+			this.ofertador.ofertarProducto();
+			System.out.println(
+					"Muchas Gracias" + " " + user.obtenerNombre() + " " + "por usar nuestros servicios y productos");
+			this.ofertador.imprimirEnArchivoItinerario();
 		}
 
-		System.out.println("__________________________");
-		app.sugerencias(productosDesordenados);
 	}
+
 }

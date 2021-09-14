@@ -16,10 +16,10 @@ public class LectorPromociones {
 	/**
 	* Lectura del archivo de promociones y creacion de la lista de promos.
 	*/
-	public List<Promociones> leerPromociones(List<Atracciones> atrList) {
+	public List<Promociones> leerPromociones(List<Atracciones> atrList, String rutaPromociones) {
 		List<Promociones> promociones = new ArrayList<Promociones>();
 		try {
-			fr = new FileReader("archivos/promociones.txt");
+			fr = new FileReader(rutaPromociones);
 			br = new BufferedReader(fr);
 			String linea = br.readLine();
 			while (linea != null) {

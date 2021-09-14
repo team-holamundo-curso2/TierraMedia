@@ -4,105 +4,77 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
 public class Ofertable {
+	private Usuario user;
+	private List<Producto> productos;
 
-	//Metodo que reciba archivo de promos y atracciones y cree la lista de productos
-	
-	//Metodo que reciba usuario e inicie el proceso de oferta
-	
-	
-	
-	// METODO QUE ESTABLECE LAS CONDICIONES PARA USAR "ACEPTAR" Y SETEA EL
-		// ITINERARIO.
-		public void ofertasAceptadas(List<Producto> productosAOfrecer) throws AtraccionException {
-			List<Producto> prod = new ArrayList<Producto>();
+	public Ofertable(Usuario user, List<Producto> productos) {
+		this.user = user;
+		this.productos = productos;
+	}
 
-			for (Producto ofrecer : productosAOfrecer)  {
-				if (this.monedas > ofrecer.costo && this.tiempoDisponible > ofrecer.tiempoDeDuracion) {
+	public boolean contieneEnItinerario(Producto producto) {
+		boolean V = false;
+		Iterator<Producto> iterador = this.user.itinerario.iterator();
+		while (iterador.hasNext()) {
+		if (iterador.next().contiene(producto)) {
+			V = true;
+		}
+		}
+		return V;
+	}
 
-					if (ofertarProducto(ofrecer)) {
-						aceptar(ofrecer);
-						prod.add(ofrecer);
-					}
+	public boolean mostrarProductoAlUsuario(Producto productoAofrecer, Usuario user) throws AtraccionException {
+		String eleccion = "";
+		Scanner respuesta = new Scanner(System.in);
+
+		System.out.println("¿Acepta agregar a su itinerario " + productoAofrecer.obtenerNombre() + "?");
+		System.out.println("Si desea aceptar la oferta responda Si, en caso contrario escriba No");
+
+		eleccion = respuesta.next().toUpperCase();
+		System.out.println();
+		while (!eleccion.equals("SI") && !eleccion.equals("NO")) {
+			System.out.println("Ingrese Si o No");
+			eleccion = respuesta.next().toUpperCase();
+		}
+
+		return eleccion.equals("SI");
+	}
+
+	// Metodo que reciba usuario e inicie el proceso de oferta
+	public List<Producto> ofertarProducto() throws AtraccionException {
+		List<Producto> productosAceptados = new ArrayList<Producto>();
+
+		for (Producto ofrecer : this.productos) {
+			if (this.user.obtenerMonedas() >= ofrecer.obtenerCosto()
+					&& this.user.obtenerTiempoDisponible() >= ofrecer.obtenerTiempo() && ofrecer.hayCupo()
+					&& !contieneEnItinerario(ofrecer)) {
+				if (mostrarProductoAlUsuario(ofrecer, this.user)) {
+					this.user.aceptar(ofrecer);
+					user.crearItinerario(ofrecer);
+					ofrecer.restarCupo();
+					productosAceptados.add(ofrecer);
 				}
 			}
-
-			this.itinerario = prod;
 		}
 
-		// METODO BOOLEANO PARA IMPRIMIR POR PANTALLA LAS OFERTAS Y SI EL USUARIO QUIERE
-		// O NO ACEPTARLAS.
-		public boolean ofertarProducto(Producto productoAofrecer) throws AtraccionException {
-			String eleccion = "";
-			Scanner respuesta = new Scanner(System.in);
+		return productosAceptados;
+	}
 
-			System.out.println("¿Acepta agregar a su itinerario " + productoAofrecer.nombre + "?");
-			System.out.println("Si desea aceptar la oferta responda Si, en caso contrario escriba No");
-			
-				eleccion = respuesta.next().toUpperCase();
-				System.out.println();
-				while (!eleccion.equals("SI") && !eleccion.equals("NO")) {
-					System.out.println("Ingrese Si o No");
-					eleccion = respuesta.next().toUpperCase();
-				}
-				
-				return eleccion.equals("SI");
-			} 
-		
-
-		
-		// METODO PARA OBTENER EL RESUMEN DEL ITINERARIO (NOMBRE DE LOS PRODUCTOS +
-		// GASTOS Y TIEMPOS TOTALES)
-		public String resumenItinerario() {
-			double costoTotal = 0;
-			double tiempoTotal = 0;
-			for (Producto suma : this.itinerario) {
-				costoTotal += suma.obtenerCosto();
-				tiempoTotal += suma.obtenerTiempo();
-			}
-			return  "Costo Total =" + costoTotal + ", Tiempo Total ="
-					+ tiempoTotal;
-
+	// METODO QUE GENERA EL ARCHIVO DE SALIDA.
+	public void imprimirEnArchivoItinerario() throws IOException {
+		PrintWriter salida = new PrintWriter(new FileWriter("Itinerario_De_" + user.obtenerNombre() + ".out"));
+		salida.println("Lista de Actividades");
+		for (Producto actividad : user.itinerario) {
+			salida.println(actividad.obtenerNombre());
 		}
-		
-		// METODO PARA ORDENAR LAS LISTAS, Y RETORNAR UNA LISTA ORDENADA PARA OFRECERLE
-		// A CADA USUARIO SEGUN PREFERENCIA
-		public List<Producto> ordenarProductos(Usuario user, List<Producto> productosAOrdenar) {
+		salida.println(user.resumenItinerario());
+		salida.close();
 
-			productosAOrdenar.sort(new OfertablesPorPreferencia(user.preferencia));
-			this.productos = productosAOrdenar;
-
-			return this.productos;
-
-		}
-
-		// METO DONDE SE RECORRE LA LISTA DE USUARIOS Y A C/U SE LE OFRECE UNA LISTA DE
-		// PRODUCTOS ORDENADA.
-		public void sugerencias(List<Producto> productosAOrdenar) throws IOException {
-
-			for (Usuario user : this.usuarios) {
-				System.out.println("Bienvenido" + " " + user.obtenerNombre());
-				ordenarProductos(user, productosAOrdenar);
-				user.ofertasAceptadas(this.productos);
-				System.out.println(
-						"Muchas Gracias" + " " + user.obtenerNombre() + " " + "por usar nuestros servicios y productos");
-				this.imprimirEnArchivoItinerario(user);
-			}
-		}
-
-		// METODO QUE GENERA EL ARCHIVO DE SALIDA.
-		public void imprimirEnArchivoItinerario(Usuario usuarioActual) throws IOException {
-			PrintWriter salida = new PrintWriter(new FileWriter("Itinerario_De_" + usuarioActual.obtenerNombre() + ".out"));
-			salida.println("Lista de Actividades");
-			for (Producto actividad : usuarioActual.itinerario) {
-				salida.println(actividad.obtenerNombre());
-			}
-			salida.println(usuarioActual.resumenItinerario());
-			salida.close();
-
-		}
+	}
 
 }

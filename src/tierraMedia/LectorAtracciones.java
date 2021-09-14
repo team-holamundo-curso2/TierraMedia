@@ -14,10 +14,11 @@ public class LectorAtracciones {
 	/**
 	* Lectura del archivo de atracciones y creacion de la lista de atracciones.
 	*/
-	public List<Atracciones> leerAtracciones()  {
+	public List<Atracciones> leerAtracciones(String rutaAtracciones)  {
 		List<Atracciones> atracciones = new ArrayList<Atracciones>();
 		try {
-			fr = new FileReader("archivos/atracciones.txt");
+			
+			fr = new FileReader(rutaAtracciones);
 			br = new BufferedReader(fr);
 			String linea = br.readLine();
 			while (linea != null) {

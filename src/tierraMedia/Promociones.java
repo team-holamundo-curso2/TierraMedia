@@ -18,85 +18,76 @@ public abstract class Promociones extends Producto {
 
 	}
 
-	public Promociones(TIPO_DE_ATRACCION tipo, String nombre, TIPO_DE_PROMOCIONES promociones,
-			int cantidad, List<Atracciones> atracciones) {
+	public Promociones(TIPO_DE_ATRACCION tipo, String nombre, TIPO_DE_PROMOCIONES promociones, int cantidad,
+			List<Atracciones> atracciones) {
 		super(tipo, nombre);
 		this.tipoPromo = promociones;
 		this.cantidadDeAtracciones = cantidad;
 		this.atracciones = atracciones;
 
 	}
-	
+
 	public double aplicarPromocion(double costo) {
 		return costo;
 	}
-	
-		
-	//Calcula la suma de los tiempos
+
+	// Calcula la suma de los tiempos
 	@Override
 	public double obtenerTiempo() {
 		double tiempoTotal = 0;
-		for(Atracciones atraccion : this.atracciones) {
+		for (Atracciones atraccion : this.atracciones) {
 			tiempoTotal += atraccion.obtenerTiempo();
 		}
-		return tiempoTotal ;
+		return tiempoTotal;
 	}
-	
+
+	// ARMAR METODO DONDE LE RESTE CUPO A LAS ATRACCIONES QUE TENGA
+
 	public List<String> obtenerAtracciones(List<Atracciones> atracciones) {
 		List<String> nombres = new ArrayList<String>();
-		for (Atracciones atraccion : atracciones) {
+		for (Atracciones atraccion : this.atracciones) {
 			nombres.add(atraccion.obtenerNombre());
 		}
 		return nombres;
 	}
-	
+
+	@Override
+	public boolean hayCupo() {
+		boolean hay = true;
+		for (Atracciones atraccion : this.atracciones) {
+			if (!atraccion.hayCupo()) {
+				hay = false;
+			}
+		}
+		return hay;
+	}
+
+	public void restarCupo() {
+		for (Atracciones atraccion : this.atracciones) {
+			atraccion.restarCupo();
+		}
+	}
+
+	// TERMINARLO
+	@Override
+	public boolean contiene(Producto p) {
+		boolean V = false;
+		for (Atracciones atraccion : this.atracciones) {
+			if (this.equals(p)) {
+				V = true;
+			}
+		}
+		return V;
+	}
+
 	@Override
 	public String toString() {
 		return "[Nombre=" + nombre + ", tipoPromo=" + tipoPromo + ", cantidadDeAtracciones=" + cantidadDeAtracciones
 				+ ", Atracciones=" + this.obtenerAtracciones(this.atracciones) + "]";
 	}
-	
-	
-	
+
 	@Override
 	public boolean esPromocion() {
 		return true;
 	}
-
-	public static void main(String[] args) {
-		List<Atracciones> atracciones = new ArrayList<Atracciones>();
-		List<Promociones> promos = new ArrayList<Promociones>();
-
-		LectorAtracciones atr = new LectorAtracciones();
-		atracciones = atr.leerAtracciones();
-
-		LectorPromociones prom = new LectorPromociones();
-		promos = prom.leerPromociones(atracciones);
-		System.out.println(promos);
-
-		System.out.println("____________1_______________");
-		
-		System.out.println(promos);
-		System.out.println(promos.get(0).obtenerCosto());
-		System.out.println(promos.get(0).aplicarPromocion(20));
-		System.out.println(promos.get(0).obtenerTiempo());
-		
-System.out.println("____________2_______________");
-		
-		System.out.println(promos.get(2));
-		System.out.println(promos.get(2).obtenerCosto());
-		System.out.println(promos.get(2).obtenerTiempo());
-		
-System.out.println("____________3_______________");
-		
-		System.out.println(promos.get(1));
-		System.out.println(promos.get(1).obtenerCosto());
-		System.out.println(promos.get(1).obtenerTiempo());
-		
-System.out.println("____________4_______________");
-		
-			
-				
-	}
-
 }

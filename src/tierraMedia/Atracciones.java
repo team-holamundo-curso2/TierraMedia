@@ -2,11 +2,8 @@ package tierraMedia;
 
 import java.util.List;
 
-public class Atracciones extends Producto{
+public class Atracciones extends Producto {
 
-
-
-	private LectorAtracciones lector;
 	private int cupoDePersonas;
 	public static List<Atracciones> atracciones;
 
@@ -15,14 +12,13 @@ public class Atracciones extends Producto{
 		this.cupoDePersonas = cupoDePersonas;
 	}
 
-	public void atraccionesRecibidas() throws AtraccionException {
-		this.lector.leerAtracciones();
+	@Override
+	public boolean hayCupo() {
+		return this.cupoDePersonas > 0;
 	}
 
-	public boolean hayCupo(int personas) {
-		if (personas < cupoDePersonas)
-			cupoDePersonas -= personas;
-		return true;
+	public void restarCupo() {
+		this.cupoDePersonas--;
 	}
 
 	public int obtenerCupoDePersonas() {
@@ -36,19 +32,20 @@ public class Atracciones extends Producto{
 	public TIPO_DE_ATRACCION obtenerTipo() {
 		return super.tipo;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Atracciones [nombre=" + nombre + ", costo=" + costo + ", tiempoDeDuracion=" + tiempoDeDuracion
 				+ ", cupoDePersonas=" + cupoDePersonas + ", tipo=" + tipo + "]";
 	}
 
-	public static void main(String[] args)  {
-		LectorAtracciones atr = new LectorAtracciones();
-		Atracciones.atracciones = atr.leerAtracciones();
-		System.out.println(atracciones);
+	@Override
+	public boolean contiene(Producto p) {
+		if (p.esPromocion()) {
+			p.contiene(this);
+		}
+		return this.equals(p);
+		
 	}
-
-
 
 }

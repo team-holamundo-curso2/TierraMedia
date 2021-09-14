@@ -27,10 +27,16 @@ public abstract class Producto {
 		this.nombre = nombre;
 	}
 
+	public abstract boolean hayCupo();
+	
+	public abstract void restarCupo();
+	
 	protected double obtenerCosto() {
 		return this.costo;
 
 	}
+	
+	public abstract boolean contiene(Producto p);
 
 	protected double obtenerTiempo() {
 		return this.tiempoDeDuracion;
@@ -43,7 +49,7 @@ public abstract class Producto {
 	protected String obtenerNombre() {
 		return this.nombre;
 	}
-
+	
 	@Override
 	public String toString() { 
 		return "Producto [costo=" + costo + ", tiempoDeDuracion=" + tiempoDeDuracion + ", tipo=" + tipo + "]";
@@ -72,7 +78,5 @@ public abstract class Producto {
 				&& Double.doubleToLongBits(tiempoDeDuracion) == Double.doubleToLongBits(other.tiempoDeDuracion)
 				&& tipo == other.tipo;
 	}
-	
-	
-	
-}
+
+	}
