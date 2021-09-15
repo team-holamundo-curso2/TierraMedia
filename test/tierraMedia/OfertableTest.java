@@ -1,6 +1,7 @@
 package tierraMedia;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -9,10 +10,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class UsuarioTest {
+public class OfertableTest {
 
 	// ARRANGE
-
+	Ofertable ofertador;
 	Usuario pepita;
 	Usuario norita;
 	Atracciones atr1;
@@ -21,15 +22,23 @@ public class UsuarioTest {
 	Atracciones atr4;
 	Atracciones atr5;
 	Atracciones atr6;
+	Atracciones atr7;
+	Atracciones atr8;
+	Atracciones atr9;
+
 	List<Atracciones> atrLista = new ArrayList<Atracciones>();
+	List<Atracciones> atrLista2 = new ArrayList<Atracciones>();
+
 	Promociones promo1;
 	Promociones promo2;
+
 	List<Promociones> promoLista = new ArrayList<Promociones>();
 	List<Producto> prodLista = new ArrayList<Producto>();
-	List<String> esperado = new ArrayList<String>();
+	List<Producto> esperado = new ArrayList<Producto>();
 
 	@Before
 	public void setUp() {
+
 		pepita = new Usuario("Pepita", TIPO_DE_ATRACCION.AVENTURA, 50, 20);
 		norita = new Usuario("Norita", TIPO_DE_ATRACCION.PAISAJE, 30, 10);
 		atr1 = new Atracciones(TIPO_DE_ATRACCION.AVENTURA, "Moria", 10, 2, 6);
@@ -38,17 +47,24 @@ public class UsuarioTest {
 		atr4 = new Atracciones(TIPO_DE_ATRACCION.AVENTURA, "Mordor", 25, 3, 4);
 		atr5 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Abismo de Helm", 5, 2, 15);
 		atr6 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Erebor", 12, 3, 32);
+		atr7 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Erebor2", 122, 3, 32);
+		atr8 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Erebor3", 123, 3, 32);
+		atr9 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Erebor4", 124, 3, 32);
 		atrLista.add(atr1);
 		atrLista.add(atr2);
-		atrLista.add(atr3);
+		atrLista.add(atr3); 
 		atrLista.add(atr4);
 		atrLista.add(atr5);
 		atrLista.add(atr6);
+		atrLista2.add(atr7);
+		atrLista2.add(atr8);
+		atrLista2.add(atr9);
 		promo1 = new Porcentuales(TIPO_DE_ATRACCION.AVENTURA, "Pack Aventura", TIPO_DE_PROMOCIONES.PORCENTUALES, 30, 2,
 				atrLista);
-		promo2 = new AXB(TIPO_DE_ATRACCION.PAISAJE, "Pack Paisaje", TIPO_DE_PROMOCIONES.AXB, 3, atrLista);
+		promo2 = new AXB(TIPO_DE_ATRACCION.PAISAJE, "Pack Paisaje", TIPO_DE_PROMOCIONES.AXB, 3, atrLista2);
+
 		promoLista.add(promo1);
-		promoLista.add(promo2);
+
 		prodLista.addAll(promoLista);
 
 		prodLista.add(atr1);
@@ -56,20 +72,24 @@ public class UsuarioTest {
 		prodLista.add(atr3);
 
 		pepita.itinerario = prodLista;
+
+		ofertador = new Ofertable(pepita, prodLista);
 	}
 
 	@Test
-	public void pruebaDeAceptarAtracciones() {
-		//pepita se construye con 50 monedas y 20 de tiempo.
-		assertTrue(pepita.aceptar(atr1));
-		assertEquals(40, pepita.obtenerMonedas(), 0.1);
-		assertEquals(18, pepita.obtenerTiempoDisponible(), 0.1);
+	public void testDeContieneEnItinerario() {
+		assertTrue(ofertador.contieneEnItinerario(promo1));
+		assertTrue(ofertador.contieneEnItinerario(atr2));
+		assertFalse(ofertador.contieneEnItinerario(promo2));
+		assertFalse(ofertador.contieneEnItinerario(atr9));
 	}
 
 	@Test
-	public void pruebaResumenItinerario() {
-		String esperada = "Costo Total =108.0, Tiempo Total =49.0";
-		assertEquals(esperada, pepita.resumenItinerario());
-		}
+	public void testDeOfertarProductos() {
+		// Al no pasar por la etapa de consola, no se puede aceptar productos, por lo
+		// que devolveria una lista vacia.
+		assertEquals(esperado, ofertador.ofertarProducto());
+
+	}
 
 }

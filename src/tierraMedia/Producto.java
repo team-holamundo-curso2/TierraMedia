@@ -13,9 +13,9 @@ public abstract class Producto {
 		this.nombre = nombre;
 	}
 	
-	public Producto(TIPO_DE_ATRACCION tipo, String nombre,  double costo) throws UsuarioException{
+	public Producto(TIPO_DE_ATRACCION tipo, String nombre,  double costo) throws ProductoException{
 		if (costo <= 0 ) {
-			throw new UsuarioException("El producto ingresado tiene un valor incorrecto");
+			throw new ProductoException("El producto ingresado tiene un valor incorrecto");
 		}
 
 		this.tipo = tipo;
@@ -26,7 +26,7 @@ public abstract class Producto {
 	
 	public Producto(TIPO_DE_ATRACCION tipo, String nombre, double costo, double tiempo) throws UsuarioException{
 		if (costo <= 0 || tiempo <= 0) {
-			throw new UsuarioException("El producto ingresado tiene un valor incorrecto");
+			throw new ProductoException("El producto ingresado tiene un valor incorrecto");
 		}
 		this.costo = costo;
 		this.tiempoDeDuracion = tiempo;

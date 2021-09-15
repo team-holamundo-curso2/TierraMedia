@@ -11,20 +11,25 @@ public class LectorPromociones {
 	private FileReader fr = null;
 	private BufferedReader br = null;
 
-//FALTA ARMAR LAS EXCEPTION PARA ATAJAR LOS ERRORES ANTES DE LA CREACION DE CADA PROMOCION.
-	
 	/**
-	* Lectura del archivo de promociones y creacion de la lista de promos.
-	*/
+	 * Lectura del archivo de promociones y creacion de la lista de promos.
+	 */
 	public List<Promociones> leerPromociones(List<Atracciones> atrList, String rutaPromociones) {
 		List<Promociones> promociones = new ArrayList<Promociones>();
 		try {
 			fr = new FileReader(rutaPromociones);
 			br = new BufferedReader(fr);
-			String linea = br.readLine();
-			while (linea != null) {
-				promociones.addAll(crearPromocion(linea, atrList));
-				linea = br.readLine();
+			String linea;
+			while ((linea = br.readLine()) != null) {
+				try {
+					promociones.addAll(crearPromocion(linea, atrList));
+				} catch (ProductoException mti) {
+					System.err.println(mti.getMessage());
+				} catch (NumberFormatException error) {
+					System.err.println("El formato es incorrecto");
+				}catch (PromocionesException promerr) {
+					System.err.println(promerr.getMessage());
+				}
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -44,10 +49,10 @@ public class LectorPromociones {
 		}
 		return promociones;
 	}
-	
+
 	/**
-	* Creacion de las promociones de acuerdo a su tipo de promocion.
-	*/
+	 * Creacion de las promociones de acuerdo a su tipo de promocion.
+	 */
 	private ArrayList<Promociones> crearPromocion(String linea, List<Atracciones> atracciones) {
 		String[] lin = linea.split(",");
 		List<Atracciones> atr = new ArrayList<Atracciones>();
@@ -63,10 +68,10 @@ public class LectorPromociones {
 		return nuevasPromociones;
 
 	}
-	
+
 	/**
-	* Creacion de las promociones de tipo Absolutas.
-	*/
+	 * Creacion de las promociones de tipo Absolutas.
+	 */
 	private Absolutas promoAbsolutas(List<Atracciones> atracciones, String[] lin, List<Atracciones> atr) {
 		for (Atracciones atraccion : atracciones) {
 			for (int i = 5; i < 5 + Integer.parseInt(lin[4]); i++) {
@@ -79,10 +84,10 @@ public class LectorPromociones {
 				TIPO_DE_PROMOCIONES.valueOf(lin[1].toUpperCase()), Double.parseDouble(lin[3]), Integer.parseInt(lin[4]),
 				atr);
 	}
-	
+
 	/**
-	* Creacion de las promociones de tipo Porcentuales. 
-	*/
+	 * Creacion de las promociones de tipo Porcentuales.
+	 */
 	private Porcentuales promoPorcentuales(List<Atracciones> atracciones, String[] lin, List<Atracciones> atr) {
 
 		for (Atracciones atraccion : atracciones) {
@@ -99,8 +104,8 @@ public class LectorPromociones {
 	}
 
 	/**
-	* Creacion de las promociones de tipo AXB.
-	*/
+	 * Creacion de las promociones de tipo AXB.
+	 */
 	private AXB promoAXB(List<Atracciones> atracciones, String[] lin, List<Atracciones> atr) {
 		for (Atracciones atraccion : atracciones) {
 			for (int i = 4; i < 4 + Integer.parseInt(lin[3]); i++) {
