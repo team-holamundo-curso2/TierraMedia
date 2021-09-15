@@ -27,7 +27,7 @@ public class LectorPromociones {
 					System.err.println(mti.getMessage());
 				} catch (NumberFormatException error) {
 					System.err.println("El formato es incorrecto");
-				}catch (PromocionesException promerr) {
+				} catch (PromocionesException promerr) {
 					System.err.println(promerr.getMessage());
 				}
 			}
@@ -53,7 +53,8 @@ public class LectorPromociones {
 	/**
 	 * Creacion de las promociones de acuerdo a su tipo de promocion.
 	 */
-	private ArrayList<Promociones> crearPromocion(String linea, List<Atracciones> atracciones) {
+	private ArrayList<Promociones> crearPromocion(String linea, List<Atracciones> atracciones) 
+			throws PromocionesException{
 		String[] lin = linea.split(",");
 		List<Atracciones> atr = new ArrayList<Atracciones>();
 		ArrayList<Promociones> nuevasPromociones = new ArrayList<Promociones>();
@@ -72,7 +73,8 @@ public class LectorPromociones {
 	/**
 	 * Creacion de las promociones de tipo Absolutas.
 	 */
-	private Absolutas promoAbsolutas(List<Atracciones> atracciones, String[] lin, List<Atracciones> atr) {
+	private Absolutas promoAbsolutas(List<Atracciones> atracciones, String[] lin, List<Atracciones> atr)
+			throws PromocionesException {
 		for (Atracciones atraccion : atracciones) {
 			for (int i = 5; i < 5 + Integer.parseInt(lin[4]); i++) {
 				if (atraccion.obtenerNombre().equals(lin[i])) {
@@ -80,6 +82,10 @@ public class LectorPromociones {
 				}
 			}
 		}
+		if (lin.length <= 4) {
+			throw new PromocionesException("La cantidad de argumentos no son los correctos para esta promocion");
+		}
+
 		return new Absolutas(TIPO_DE_ATRACCION.valueOf(lin[0].toUpperCase()), lin[2],
 				TIPO_DE_PROMOCIONES.valueOf(lin[1].toUpperCase()), Double.parseDouble(lin[3]), Integer.parseInt(lin[4]),
 				atr);
@@ -88,7 +94,8 @@ public class LectorPromociones {
 	/**
 	 * Creacion de las promociones de tipo Porcentuales.
 	 */
-	private Porcentuales promoPorcentuales(List<Atracciones> atracciones, String[] lin, List<Atracciones> atr) {
+	private Porcentuales promoPorcentuales(List<Atracciones> atracciones, String[] lin, List<Atracciones> atr)
+			throws PromocionesException {
 
 		for (Atracciones atraccion : atracciones) {
 			for (int i = 5; i < 5 + Integer.parseInt(lin[4]); i++) {
@@ -96,6 +103,9 @@ public class LectorPromociones {
 					atr.add(atraccion);
 				}
 			}
+		}
+		if (lin.length <= 4) {
+			throw new PromocionesException("La cantidad de argumentos no son los correctos para esta promocion");
 		}
 
 		return new Porcentuales(TIPO_DE_ATRACCION.valueOf(lin[0].toUpperCase()), lin[2],
@@ -115,6 +125,9 @@ public class LectorPromociones {
 			}
 		}
 
+		if (lin.length <= 4) {
+			throw new PromocionesException("La cantidad de argumentos no son los correctos para esta promocion");
+		}
 		return new AXB(TIPO_DE_ATRACCION.valueOf(lin[0].toUpperCase()), lin[2],
 				TIPO_DE_PROMOCIONES.valueOf(lin[1].toUpperCase()), Integer.parseInt(lin[3]), atr);
 	}

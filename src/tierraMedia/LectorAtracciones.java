@@ -59,7 +59,7 @@ public class LectorAtracciones {
 	private Atracciones crearAtraccion(String linea) throws AtraccionException {
 		String[] lin = linea.split(",");
 		if (lin.length != 5) {
-			throw new AtraccionException("La cantidad de argumentos no son los correctos para un Usuario");
+			throw new AtraccionException("La cantidad de argumentos no son los correctos para esta atraccion");
 		}
 
 		return new Atracciones(TIPO_DE_ATRACCION.valueOf(lin[4]), lin[0], Double.parseDouble(lin[1]),
