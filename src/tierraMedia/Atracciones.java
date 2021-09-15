@@ -42,7 +42,7 @@ public class Atracciones extends Producto {
 	@Override
 	public boolean contiene(Producto p) {
 		if (p.esPromocion()) {
-			p.contiene(this);
+			return p.contiene(this);
 		}
 		return this.equals(p);
 		

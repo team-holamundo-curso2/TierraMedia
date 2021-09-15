@@ -18,14 +18,13 @@ public class Ofertable {
 	}
 
 	public boolean contieneEnItinerario(Producto producto) {
-		boolean V = false;
+		boolean contiene = false;
 		Iterator<Producto> iterador = this.user.itinerario.iterator();
-		while (iterador.hasNext()) {
-		if (iterador.next().contiene(producto)) {
-			V = true;
+		while (!contiene && iterador.hasNext()) {
+
+			contiene = iterador.next().contiene(producto);
 		}
-		}
-		return V;
+		return contiene;
 	}
 
 	public boolean mostrarProductoAlUsuario(Producto productoAofrecer, Usuario user) throws AtraccionException {

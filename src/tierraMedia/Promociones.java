@@ -1,6 +1,7 @@
 package tierraMedia;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class Promociones extends Producto {
@@ -71,13 +72,12 @@ public abstract class Promociones extends Producto {
 	// TERMINARLO
 	@Override
 	public boolean contiene(Producto p) {
-		boolean V = false;
-		for (Atracciones atraccion : this.atracciones) {
-			if (this.equals(p)) {
-				V = true;
-			}
+		boolean contiene = false;
+		Iterator<Atracciones> iterador = this.atracciones.listIterator();
+		while (!contiene && iterador.hasNext()) {
+			contiene=p.contiene(iterador.next());
 		}
-		return V;
+	return contiene;
 	}
 
 	@Override
