@@ -12,18 +12,23 @@ public class LectorUsuario {
 	private BufferedReader br = null;
 
 	/**
-	* Lee el archivo de usuarios y crea la lista de usuarios.
-	*/
+	 * Lee el archivo de usuarios y crea la lista de usuarios.
+	 */
 	public List<Usuario> leerUsuario(String rutaUsuarios) {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		try {
 			fr = new FileReader(rutaUsuarios);
 			br = new BufferedReader(fr);
-			String linea = br.readLine();
-			while (linea != null) {
-				Usuario nuevoUsuario = crearUsuario(linea);
-				usuarios.add(nuevoUsuario);
-				linea = br.readLine();
+			String linea;
+			while ((linea = br.readLine()) != null) {
+				try {
+					Usuario nuevoUsuario = crearUsuario(linea);
+					usuarios.add(nuevoUsuario);
+				} catch (UsuarioException rne) {
+					System.err.println(rne.getMessage());
+				}catch (NumberFormatException error) {
+					System.err.println("El formato es incorrecto");
+				}
 
 			}
 		} catch (FileNotFoundException e) {
@@ -46,19 +51,17 @@ public class LectorUsuario {
 	}
 
 	/**
-	* Crea cada usuario con los datos de archivo.
-	*/
+	 * Crea cada usuario con los datos de archivo.
+	 */
 	private Usuario crearUsuario(String linea) throws UsuarioException {
 		String[] lin = linea.split(",");
-		if(lin.length != 4) {
+
+		if (lin.length != 4) {
 			throw new UsuarioException("La cantidad de argumento no son los correctos para un Usuario");
 		}
-		try{
-			return new Usuario(lin[0], TIPO_DE_ATRACCION.valueOf(lin[1]), Double.parseDouble(lin[2]),
+		
+		return new Usuario(lin[0], TIPO_DE_ATRACCION.valueOf(lin[1]), Double.parseDouble(lin[2]),
 				Double.parseDouble(lin[3]));
-		}catch(NumberFormatException UsuarioException) {
-			throw new UsuarioException("La cantidad de argumento no son los correctos para un Usuario");
-		}
 	}
 
 }

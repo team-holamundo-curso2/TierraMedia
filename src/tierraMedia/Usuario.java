@@ -11,17 +11,19 @@ public class Usuario {
 	public TIPO_DE_ATRACCION preferencia;
 	List<Producto> itinerario = new ArrayList<Producto>();
 
-
-
 	public Usuario() {
 	}
 
-	public Usuario(String nombre, TIPO_DE_ATRACCION preferencia, double monedas, double tiempoDisponible) {
+	public Usuario(String nombre, TIPO_DE_ATRACCION preferencia, double monedas, double tiempoDisponible) 
+	throws UsuarioException{
+		if (monedas <= 0 || tiempoDisponible <= 0) {
+			throw new UsuarioException("El usuario ingreso un valor incorrecto");
+		}
 		this.nombre = nombre;
 		this.preferencia = preferencia;
 		this.monedas = monedas;
 		this.tiempoDisponible = tiempoDisponible;
-
+		
 	}
 
 	public String obtenerNombre() {

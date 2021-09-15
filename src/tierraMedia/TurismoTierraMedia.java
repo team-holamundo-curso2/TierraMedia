@@ -57,7 +57,6 @@ public class TurismoTierraMedia {
 	public void sugerencias() throws IOException {
 
 		for (Usuario user : this.usuarios) {
-
 			this.ofertador = new Ofertable(user, this.ordenarProductos(user));
 			System.out.println("Bienvenido" + user.obtenerNombre());
 			this.ofertador.ofertarProducto();

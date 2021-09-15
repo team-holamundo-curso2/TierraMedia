@@ -8,6 +8,7 @@ public class Atracciones extends Producto {
 	public static List<Atracciones> atracciones;
 
 	public Atracciones(TIPO_DE_ATRACCION tipo, String nombre, double costo, double tiempo, int cupoDePersonas) {
+		
 		super(tipo, nombre, costo, tiempo);
 		this.cupoDePersonas = cupoDePersonas;
 	}

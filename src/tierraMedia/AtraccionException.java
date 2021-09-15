@@ -1,6 +1,6 @@
 package tierraMedia;
 /***
- * Hay un error en la creacion de la atraccion
+ * Hay un error en la creacion del producto
  *
  */
 @SuppressWarnings("serial")
