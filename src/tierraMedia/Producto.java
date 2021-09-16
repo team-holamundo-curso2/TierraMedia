@@ -2,7 +2,7 @@ package tierraMedia;
 
 import java.util.Objects;
 
-public abstract class Producto { 
+public abstract class Producto {
 	protected double costo;
 	protected double tiempoDeDuracion;
 	protected TIPO_DE_ATRACCION tipo;
@@ -12,9 +12,9 @@ public abstract class Producto {
 		this.tipo = tipo;
 		this.nombre = nombre;
 	}
-	
-	public Producto(TIPO_DE_ATRACCION tipo, String nombre,  double costo) throws ProductoException{
-		if (costo <= 0 ) {
+
+	public Producto(TIPO_DE_ATRACCION tipo, String nombre, double costo) throws ProductoException {
+		if (costo <= 0) {
 			throw new ProductoException("El producto ingresado tiene un valor incorrecto");
 		}
 
@@ -23,8 +23,7 @@ public abstract class Producto {
 		this.nombre = nombre;
 	}
 
-	
-	public Producto(TIPO_DE_ATRACCION tipo, String nombre, double costo, double tiempo) throws UsuarioException{
+	public Producto(TIPO_DE_ATRACCION tipo, String nombre, double costo, double tiempo) throws ProductoException {
 		if (costo <= 0 || tiempo <= 0) {
 			throw new ProductoException("El producto ingresado tiene un valor incorrecto");
 		}
@@ -35,14 +34,14 @@ public abstract class Producto {
 	}
 
 	public abstract boolean hayCupo();
-	
+
 	public abstract void restarCupo();
-	
+
 	protected double obtenerCosto() {
 		return this.costo;
 
 	}
-	
+
 	public abstract boolean contiene(Producto p);
 
 	protected double obtenerTiempo() {
@@ -52,13 +51,13 @@ public abstract class Producto {
 	protected TIPO_DE_ATRACCION obtenerTipo() {
 		return this.tipo;
 	}
-	
+
 	protected String obtenerNombre() {
 		return this.nombre;
 	}
-	
+
 	@Override
-	public String toString() { 
+	public String toString() {
 		return "Producto [costo=" + costo + ", tiempoDeDuracion=" + tiempoDeDuracion + ", tipo=" + tipo + "]";
 	}
 
@@ -86,4 +85,4 @@ public abstract class Producto {
 				&& tipo == other.tipo;
 	}
 
-	}
+}

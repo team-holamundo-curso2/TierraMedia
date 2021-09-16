@@ -14,8 +14,8 @@ public class Usuario {
 	public Usuario() {
 	}
 
-	public Usuario(String nombre, TIPO_DE_ATRACCION preferencia, double monedas, double tiempoDisponible) 
-	throws UsuarioException{
+	public Usuario(String nombre, TIPO_DE_ATRACCION preferencia, double monedas, double tiempoDisponible)
+			throws UsuarioException {
 		if (monedas <= 0 || tiempoDisponible <= 0) {
 			throw new UsuarioException("El usuario ingreso un valor incorrecto");
 		}
@@ -23,7 +23,7 @@ public class Usuario {
 		this.preferencia = preferencia;
 		this.monedas = monedas;
 		this.tiempoDisponible = tiempoDisponible;
-		
+
 	}
 
 	public String obtenerNombre() {
@@ -42,8 +42,7 @@ public class Usuario {
 		return this.preferencia;
 	}
 
-	// METODO BOOLEANO PARA ACEPTAR OFERTAS: RETORNA TRUE Y SETEA LOS ATRIBUTOS DE
-	// COSTO Y TIEMPO CON LOS NUEVOS VALORES.
+	// Metodo para aceptar un producto. 
 	public boolean aceptar(Producto producto) throws AtraccionException {
 		this.monedas -= producto.obtenerCosto();
 		this.tiempoDisponible -= producto.obtenerTiempo();
@@ -58,8 +57,6 @@ public class Usuario {
 		return this.itinerario;
 	}
 
-	// METODO PARA OBTENER EL RESUMEN DEL ITINERARIO (NOMBRE DE LOS PRODUCTOS +
-	// GASTOS Y TIEMPOS TOTALES)
 	public String resumenItinerario() {
 		double costoTotal = 0;
 		double tiempoTotal = 0;

@@ -1,4 +1,5 @@
 package tierraMedia;
+
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PromocionesTest {
-	Usuario pepita;
+
 	Atracciones atr1;
 	Atracciones atr2;
 	Atracciones atr3;
@@ -23,12 +24,9 @@ public class PromocionesTest {
 	Promociones promo4;
 	List<Promociones> promoLista = new ArrayList<Promociones>();
 	List<Producto> prodLista = new ArrayList<Producto>();
-	List<String> esperado = new ArrayList<String>();
 
 	@Before
 	public void setUp() throws Exception {
-
-		pepita = new Usuario("Pepita", TIPO_DE_ATRACCION.AVENTURA, 50, 20);
 		atr1 = new Atracciones(TIPO_DE_ATRACCION.AVENTURA, "Moria", 10, 2, 6);
 		atr2 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Minas Tirith", 5, 2.5, 25);
 		atr3 = new Atracciones(TIPO_DE_ATRACCION.DEGUSTACION, "La Comarca", 3, 6.5, 150);
@@ -44,11 +42,7 @@ public class PromocionesTest {
 		atrLista2.add(atr2);
 		atrLista2.add(atr5);
 		atrLista2.add(atr6);
-		promo1 = new Porcentuales(TIPO_DE_ATRACCION.AVENTURA, "Pack Aventura", TIPO_DE_PROMOCIONES.PORCENTUALES, 30, 2,
-				atrLista);
 		promo2 = new AXB(TIPO_DE_ATRACCION.PAISAJE, "Pack Paisaje", TIPO_DE_PROMOCIONES.AXB, 3, atrLista2);
-		promo3 = new Absolutas(TIPO_DE_ATRACCION.DEGUSTACION, "Pack Degustacion", TIPO_DE_PROMOCIONES.AXB, 500, 2,
-				atrLista);
 		promo4 = new Porcentuales(TIPO_DE_ATRACCION.AVENTURA, "Pack Aventura", TIPO_DE_PROMOCIONES.PORCENTUALES, 50, 3,
 				atrLista);
 		promoLista.add(promo1);
@@ -65,7 +59,7 @@ public class PromocionesTest {
 		// tiempo.
 
 		assertEquals(30, promo4.obtenerCosto(), 0.1); // Descuento al 50%
-		assertEquals(19, promo4.obtenerTiempo(), 0.1);
+		assertEquals(19, promo4.obtenerTiempo(), 0.1); // Se suman los tiempos de todas las atracciones de la lista.
 
 		// Prueba de calculo de costo y tiempo de Promocion AXB.
 
@@ -85,10 +79,10 @@ public class PromocionesTest {
 
 	@Test
 	public void pruebaDeContiene() {
-		// Prueba si una atraccion esta dentro de la promocion. 
+		// Prueba si una atraccion esta dentro de la promocion o no.
 		assertTrue(promo2.contiene(atr5)); // TRUE
 		assertFalse(promo2.contiene(atr1)); // FALSE
 
-	} 
+	}
 
 }

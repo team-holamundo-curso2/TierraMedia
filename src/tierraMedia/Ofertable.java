@@ -16,6 +16,7 @@ public class Ofertable {
 		this.user = user;
 		this.productos = productos;
 	}
+ 
 
 	public boolean contieneEnItinerario(Producto producto) {
 		boolean contiene = false;
@@ -27,11 +28,12 @@ public class Ofertable {
 		return contiene;
 	}
 
+	//Metodo que muestra por consola la oferta al usuario, para que acepte o no.
 	public boolean mostrarProductoAlUsuario(Producto productoAofrecer, Usuario user) throws AtraccionException {
 		String eleccion = "";
 		Scanner respuesta = new Scanner(System.in);
 
-		System.out.println("Â¿Acepta agregar a su itinerario " + productoAofrecer.obtenerNombre() + "?");
+		System.out.println("¿Acepta agregar a su itinerario " + productoAofrecer.obtenerNombre() + "?");
 		System.out.println("Si desea aceptar la oferta responda Si, en caso contrario escriba No");
 
 		eleccion = respuesta.next().toUpperCase();
@@ -44,7 +46,7 @@ public class Ofertable {
 		return eleccion.equals("SI");
 	}
 
-	// Metodo que reciba usuario e inicie el proceso de oferta
+	// Metodo del proceso de oferta
 	public List<Producto> ofertarProducto() throws AtraccionException {
 		List<Producto> productosAceptados = new ArrayList<Producto>();
 
@@ -64,7 +66,7 @@ public class Ofertable {
 		return productosAceptados;
 	}
 
-	// METODO QUE GENERA EL ARCHIVO DE SALIDA.
+	// Metodo que genera el archivo de salida.
 	public void imprimirEnArchivoItinerario() throws IOException {
 		PrintWriter salida = new PrintWriter(new FileWriter("Itinerario_De_" + user.obtenerNombre() + ".out"));
 		salida.println("Lista de Actividades");

@@ -1,6 +1,5 @@
 package tierraMedia;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -12,10 +11,8 @@ import org.junit.Test;
 
 public class OfertableTest {
 
-	// ARRANGE
 	Ofertable ofertador;
 	Usuario pepita;
-	Usuario norita;
 	Atracciones atr1;
 	Atracciones atr2;
 	Atracciones atr3;
@@ -25,22 +22,16 @@ public class OfertableTest {
 	Atracciones atr7;
 	Atracciones atr8;
 	Atracciones atr9;
-
 	List<Atracciones> atrLista = new ArrayList<Atracciones>();
 	List<Atracciones> atrLista2 = new ArrayList<Atracciones>();
-
 	Promociones promo1;
 	Promociones promo2;
-
-	List<Promociones> promoLista = new ArrayList<Promociones>();
 	List<Producto> prodLista = new ArrayList<Producto>();
-	List<Producto> esperado = new ArrayList<Producto>();
 
 	@Before
 	public void setUp() {
 
 		pepita = new Usuario("Pepita", TIPO_DE_ATRACCION.AVENTURA, 50, 20);
-		norita = new Usuario("Norita", TIPO_DE_ATRACCION.PAISAJE, 30, 10);
 		atr1 = new Atracciones(TIPO_DE_ATRACCION.AVENTURA, "Moria", 10, 2, 6);
 		atr2 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Minas Tirith", 5, 2.5, 25);
 		atr3 = new Atracciones(TIPO_DE_ATRACCION.DEGUSTACION, "La Comarca", 3, 6.5, 150);
@@ -52,7 +43,7 @@ public class OfertableTest {
 		atr9 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Erebor4", 124, 3, 32);
 		atrLista.add(atr1);
 		atrLista.add(atr2);
-		atrLista.add(atr3); 
+		atrLista.add(atr3);
 		atrLista.add(atr4);
 		atrLista.add(atr5);
 		atrLista.add(atr6);
@@ -63,33 +54,22 @@ public class OfertableTest {
 				atrLista);
 		promo2 = new AXB(TIPO_DE_ATRACCION.PAISAJE, "Pack Paisaje", TIPO_DE_PROMOCIONES.AXB, 3, atrLista2);
 
-		promoLista.add(promo1);
-
-		prodLista.addAll(promoLista);
-
+		prodLista.add(promo1);
 		prodLista.add(atr1);
 		prodLista.add(atr2);
 		prodLista.add(atr3);
 
 		pepita.itinerario = prodLista;
-
 		ofertador = new Ofertable(pepita, prodLista);
 	}
 
 	@Test
 	public void testDeContieneEnItinerario() {
+		// Prueba si contiene o no determinadas promos y atracciones.
 		assertTrue(ofertador.contieneEnItinerario(promo1));
 		assertTrue(ofertador.contieneEnItinerario(atr2));
 		assertFalse(ofertador.contieneEnItinerario(promo2));
 		assertFalse(ofertador.contieneEnItinerario(atr9));
-	}
-
-	@Test
-	public void testDeOfertarProductos() {
-		// Al no pasar por la etapa de consola, no se puede aceptar productos, por lo
-		// que devolveria una lista vacia.
-		assertEquals(esperado, ofertador.ofertarProducto());
-
 	}
 
 }

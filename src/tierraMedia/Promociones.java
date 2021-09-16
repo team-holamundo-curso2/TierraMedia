@@ -32,7 +32,6 @@ public abstract class Promociones extends Producto {
 		return costo;
 	}
 
-	// Calcula la suma de los tiempos
 	@Override
 	public double obtenerTiempo() {
 		double tiempoTotal = 0;
@@ -42,8 +41,7 @@ public abstract class Promociones extends Producto {
 		return tiempoTotal;
 	}
 
-	// ARMAR METODO DONDE LE RESTE CUPO A LAS ATRACCIONES QUE TENGA
-
+	// Metodo para retornar los nombres de las atracciones de una promocion.
 	public List<String> obtenerAtracciones(List<Atracciones> atracciones) {
 		List<String> nombres = new ArrayList<String>();
 		for (Atracciones atraccion : this.atracciones) {
@@ -69,15 +67,15 @@ public abstract class Promociones extends Producto {
 		}
 	}
 
-	// TERMINARLO
+
 	@Override
 	public boolean contiene(Producto p) {
 		boolean contiene = false;
 		Iterator<Atracciones> iterador = this.atracciones.listIterator();
 		while (!contiene && iterador.hasNext()) {
-			contiene=p.contiene(iterador.next());
+			contiene = p.contiene(iterador.next());
 		}
-	return contiene;
+		return contiene;
 	}
 
 	@Override

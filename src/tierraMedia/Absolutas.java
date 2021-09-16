@@ -11,8 +11,9 @@ public class Absolutas extends Promociones {
 	}
 
 	/**
-	* post: Modifica el costo de la promoción por el costo descontado que se establece por el pack.
-	*/
+	 * post: Modifica el costo de la promocion por el costo descontado que se
+	 * establece por el pack.
+	 */
 	public double aplicarPromocion(double costo) {
 		return costo;
 	}

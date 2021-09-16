@@ -1,0 +1,4 @@
+AVENTURA,PORCENTUALES,Pack Aventura,-200,2,Bosque Negro,Mordor
+DEGUSTACION,ABSOLUTAS,Pack Degustacion,500,2,Lothlorien,La Comarca
+PAISAJE,AXB,Pack Paisaje,3,Minas Tirith,Abismo de Helm,Erebor
+AVENTURA,PORCENTUALES,Pack Aventura2,50,dos,Bosque Negro,Mordor,Moria

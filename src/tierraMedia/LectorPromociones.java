@@ -53,8 +53,8 @@ public class LectorPromociones {
 	/**
 	 * Creacion de las promociones de acuerdo a su tipo de promocion.
 	 */
-	private ArrayList<Promociones> crearPromocion(String linea, List<Atracciones> atracciones) 
-			throws PromocionesException{
+	private ArrayList<Promociones> crearPromocion(String linea, List<Atracciones> atracciones)
+			throws PromocionesException {
 		String[] lin = linea.split(",");
 		List<Atracciones> atr = new ArrayList<Atracciones>();
 		ArrayList<Promociones> nuevasPromociones = new ArrayList<Promociones>();

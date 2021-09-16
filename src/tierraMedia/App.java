@@ -9,11 +9,9 @@ public class App {
 		String rutaP = "archivos/promociones.txt";
 		String rutaU = "archivos/usuario.txt";
 		TurismoTierraMedia appTurismo = new TurismoTierraMedia(rutaU, rutaA, rutaP);
-		
+
 		appTurismo.crearListas();
 		appTurismo.sugerencias();
-		
-
 	}
 
 }

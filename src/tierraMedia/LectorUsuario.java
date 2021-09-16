@@ -26,7 +26,7 @@ public class LectorUsuario {
 					usuarios.add(nuevoUsuario);
 				} catch (UsuarioException rne) {
 					System.err.println(rne.getMessage());
-				}catch (NumberFormatException error) {
+				} catch (NumberFormatException error) {
 					System.err.println("El formato es incorrecto");
 				}
 
@@ -57,9 +57,9 @@ public class LectorUsuario {
 		String[] lin = linea.split(",");
 
 		if (lin.length != 4) {
-			throw new UsuarioException("La cantidad de argumentos no son los correctos para un Usuario");
+			throw new UsuarioException("La cantidad de argumento no son los correctos para un Usuario");
 		}
-		
+
 		return new Usuario(lin[0], TIPO_DE_ATRACCION.valueOf(lin[1]), Double.parseDouble(lin[2]),
 				Double.parseDouble(lin[3]));
 	}
