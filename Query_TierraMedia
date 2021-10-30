@@ -1,0 +1,25 @@
+PORCENTUALES
+
+SELECT promocion.nombre, tipo_promo.nombre AS 'Promocion', porcentuales.descuento AS 'Porcentaje', atraccion.nombre
+FROM porcentuales
+JOIN promocion ON porcentuales.promo_id = promocion.id
+JOIN atraccion_promocion ON promocion.id = atraccion_promocion.promocion_id
+JOIN atraccion ON atraccion_promocion.atraccion_id = atraccion.id
+JOIN tipo_promo ON tipo_promo.id = promocion.tipo_promo_id
+
+AXB
+SELECT promocion.nombre, tipo_promo.nombre AS 'Promocion', axb.atraccion_gratis_id AS 'Atraccion Gratis', atraccion.nombre
+FROM axb
+JOIN promocion ON axb.promo_id = promocion.id
+JOIN atraccion_promocion ON promocion.id = atraccion_promocion.promocion_id
+JOIN atraccion ON atraccion_promocion.atraccion_id = atraccion.id
+JOIN tipo_promo ON tipo_promo.id = promocion.tipo_promo_id
+
+ABSOLUTAS
+
+SELECT promocion.nombre, tipo_promo.nombre AS 'Promocion', absoluta."total" AS 'Total', atraccion.nombre
+FROM absoluta
+JOIN promocion ON absoluta.promo_id = promocion.id
+JOIN atraccion_promocion ON promocion.id = atraccion_promocion.promocion_id
+JOIN atraccion ON atraccion_promocion.atraccion_id = atraccion.id
+JOIN tipo_promo ON tipo_promo.id = promocion.tipo_promo_id

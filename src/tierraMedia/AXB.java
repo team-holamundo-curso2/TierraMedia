@@ -1,25 +1,29 @@
 package tierraMedia;
 
-import java.util.List;
-
 public class AXB extends Promociones {
+	private double atraccionGratis;
 
-	public AXB(TIPO_DE_ATRACCION tipo, String nombre, TIPO_DE_PROMOCIONES promociones, int cantidad,
-			List<Atracciones> atracciones) {
-		super(tipo, nombre, promociones, cantidad, atracciones);
-		this.costo = this.aplicarPromocion();
+	public AXB(int id, String tipo, String nombre, String promociones, double condicion) {
+		super(id, tipo, nombre, promociones);
+		this.atraccionGratis = condicion;
+			}
+	
+	/**
+	 * post:Al costo total se le resta el costo de la √∫ltima atracci√≥n de la promo.
+	 */
+	public void aplicarPromocion() {
+		double costoTotal = 0;
+		for (int i = 0; i < this.atracciones.size(); i++) {
+			if (atracciones.get(i).obtenerIdAtraccion() != this.obtenerAtraccionGratis()) {
 
+				costoTotal += this.atracciones.get(i).obtenerCosto();
+			}
+		}
+		this.costo = costoTotal;
 	}
 
-	/**
-	 * post:Al costo total se le resta el costo de la ˙ltima atracciÛn de la promo.
-	 */
-	public double aplicarPromocion() {
-		double costoTotal = 0;
-		for (int i = 0; i < (this.atracciones.size() - 1); i++) {
-			costoTotal += this.atracciones.get(i).obtenerCosto();
-		}
-		return costoTotal;
+	public double obtenerAtraccionGratis() {
+		return this.atraccionGratis;
 	}
 
 }

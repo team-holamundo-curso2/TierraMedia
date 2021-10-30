@@ -1,19 +1,21 @@
 package tierraMedia;
 
+import java.sql.SQLException;
 import java.util.Objects;
 
 public abstract class Producto {
+	
 	protected double costo;
 	protected double tiempoDeDuracion;
-	protected TIPO_DE_ATRACCION tipo;
+	protected String tipo;
 	protected String nombre;
 
-	public Producto(TIPO_DE_ATRACCION tipo, String nombre) {
+	public Producto(String tipo, String nombre) {
 		this.tipo = tipo;
 		this.nombre = nombre;
 	}
 
-	public Producto(TIPO_DE_ATRACCION tipo, String nombre, double costo) throws ProductoException {
+	public Producto(String tipo, String nombre, double costo) throws ProductoException {
 		if (costo <= 0) {
 			throw new ProductoException("El producto ingresado tiene un valor incorrecto");
 		}
@@ -23,7 +25,7 @@ public abstract class Producto {
 		this.nombre = nombre;
 	}
 
-	public Producto(TIPO_DE_ATRACCION tipo, String nombre, double costo, double tiempo) throws ProductoException {
+	public Producto(String tipo, String nombre, double costo, double tiempo) throws ProductoException {
 		if (costo <= 0 || tiempo <= 0) {
 			throw new ProductoException("El producto ingresado tiene un valor incorrecto");
 		}
@@ -35,7 +37,7 @@ public abstract class Producto {
 
 	public abstract boolean hayCupo();
 
-	public abstract void restarCupo();
+	public abstract void restarCupo() throws SQLException;
 
 	protected double obtenerCosto() {
 		return this.costo;
@@ -48,7 +50,7 @@ public abstract class Producto {
 		return this.tiempoDeDuracion;
 	}
 
-	protected TIPO_DE_ATRACCION obtenerTipo() {
+	protected String obtenerTipo() {
 		return this.tipo;
 	}
 

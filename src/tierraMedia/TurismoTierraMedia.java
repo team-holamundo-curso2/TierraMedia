@@ -1,50 +1,46 @@
 package tierraMedia;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TurismoTierraMedia {
 
-	List<Usuario> usuarios;
-	List<Atracciones> atrLista;
-	List<Producto> productosDesordenados;
+	private List<Usuario> usuarios;
+	private List<Atracciones> atrLista;
+	private List<Producto> productosDesordenados;
+
 	private Ofertable ofertador;
-	private String rutaAtracciones;
-	private String rutaPromociones;
-	private String rutaUsuarios;
 
-	public TurismoTierraMedia(String rutaU, String rutaA, String rutaP) {
-		this.rutaAtracciones = rutaA;
-		this.rutaPromociones = rutaP;
-		this.rutaUsuarios = rutaU;
-	}
 
-	// Crea todas las listas necesarias. 
-	public void crearListas() {
+	public TurismoTierraMedia() {
+		}
+
+	// Crea todas las listas necesarias.
+	public void crearListas() throws SQLException {
 		this.crearListaDeUsuarios();
 		this.crearListasDeProductos();
 	}
 
-	public void crearListaDeUsuarios() {
-		LectorUsuario lector = new LectorUsuario();
-		this.usuarios = lector.leerUsuario(this.rutaUsuarios);
+	public void crearListaDeUsuarios() throws SQLException {
+		UsuarioDAO userD = new UsuarioDAO();
+		this.usuarios = userD.crearListaDeUsuarios();
 	}
 
-	public List<Producto> crearListasDeProductos() {
-
+	public List<Producto> crearListasDeProductos() throws SQLException {
 		List<Producto> productos = new ArrayList<Producto>();
 
-		LectorAtracciones atr = new LectorAtracciones();
-		this.atrLista = atr.leerAtracciones(this.rutaAtracciones);
-		LectorPromociones prom = new LectorPromociones();
-		productos.addAll(prom.leerPromociones(atrLista, this.rutaPromociones));
+		AtraccionesDAO atrD = new AtraccionesDAO();
+		this.atrLista = atrD.crearListaDeAtracciones();
+		PromocionesDAO promD = new PromocionesDAO();
+		productos.addAll(promD.crearListaDePromociones(this.atrLista));
 		productos.addAll(atrLista);
 
 		return this.productosDesordenados = productos;
 	}
 
-	// Metodo para ordenar los productos segun preferencia del usuario. 
+	// Metodo para ordenar los productos segun preferencia del usuario.
 	public List<Producto> ordenarProductos(Usuario user) {
 
 		List<Producto> productosOrdenados = new ArrayList<Producto>();
@@ -55,8 +51,8 @@ public class TurismoTierraMedia {
 		return productosOrdenados;
 	}
 
-	//Metodo que realiza las sugerencias a los usuarios. 
-	public void sugerencias() throws IOException {
+	// Metodo que realiza las sugerencias a los usuarios.
+	public void sugerencias() throws IOException, AtraccionException, SQLException {
 
 		for (Usuario user : this.usuarios) {
 			this.ofertador = new Ofertable(user, this.ordenarProductos(user));
@@ -64,11 +60,14 @@ public class TurismoTierraMedia {
 			this.ofertador.ofertarProducto();
 			System.out.println(
 					"Muchas Gracias" + " " + user.obtenerNombre() + " " + "por usar nuestros servicios y productos");
-			System.out.println(
-					"T  U  R  I  S  M  O  -  T  I  E  R  R  A  -  M  E  D  I  A");
+			System.out.println("T  U  R  I  S  M  O  -  T  I  E  R  R  A  -  M  E  D  I  A");
 			this.ofertador.imprimirEnArchivoItinerario();
 		}
 
+	}
+
+	public void setProductosDesordenados(List<Producto> productosDesordenados) {
+		this.productosDesordenados = productosDesordenados;
 	}
 
 }

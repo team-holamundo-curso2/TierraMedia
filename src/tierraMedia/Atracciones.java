@@ -1,14 +1,21 @@
 package tierraMedia;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 public class Atracciones extends Producto {
 
+
+
 	private int cupoDePersonas;
 	public static List<Atracciones> atracciones;
+	protected int idAtraccion;
 
-	public Atracciones(TIPO_DE_ATRACCION tipo, String nombre, double costo, double tiempo, int cupoDePersonas) {
-		super(tipo, nombre, costo, tiempo);
+	public Atracciones(int id, String tipo, String nombre, double costo, double tiempo, int cupoDePersonas) {
+		super(tipo, nombre, costo);
+		this.idAtraccion = id; 
+		this.tiempoDeDuracion = tiempo;
 		this.cupoDePersonas = cupoDePersonas;
 	}
 
@@ -17,8 +24,10 @@ public class Atracciones extends Producto {
 		return this.cupoDePersonas > 0;
 	}
 
-	public void restarCupo() {
+	public void restarCupo() throws SQLException {
 		this.cupoDePersonas--;
+		AtraccionesDAO atrDAO = new AtraccionesDAO();
+		atrDAO.actualizarCupo(this);
 	}
 
 	public int obtenerCupoDePersonas() {
@@ -29,7 +38,7 @@ public class Atracciones extends Producto {
 		return nombre;
 	}
 
-	public TIPO_DE_ATRACCION obtenerTipo() {
+	public String obtenerTipo() {
 		return super.tipo;
 	}
 
@@ -46,6 +55,30 @@ public class Atracciones extends Producto {
 		}
 		return this.equals(p);
 
+	}
+
+	public int obtenerIdAtraccion() {
+		return this.idAtraccion;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(idAtraccion);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Atracciones other = (Atracciones) obj;
+		return idAtraccion == other.idAtraccion;
 	}
 
 }

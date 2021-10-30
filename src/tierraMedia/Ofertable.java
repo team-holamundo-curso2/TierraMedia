@@ -3,6 +3,7 @@ package tierraMedia;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,11 +17,10 @@ public class Ofertable {
 		this.user = user;
 		this.productos = productos;
 	}
- 
 
 	public boolean contieneEnItinerario(Producto producto) {
 		boolean contiene = false;
-		Iterator<Producto> iterador = this.user.itinerario.iterator();
+		Iterator<Producto> iterador = this.user.obtenerItinerario().iterator();
 		while (!contiene && iterador.hasNext()) {
 
 			contiene = iterador.next().contiene(producto);
@@ -28,12 +28,12 @@ public class Ofertable {
 		return contiene;
 	}
 
-	//Metodo que muestra por consola la oferta al usuario, para que acepte o no.
+	// Metodo que muestra por consola la oferta al usuario, para que acepte o no.
 	public boolean mostrarProductoAlUsuario(Producto productoAofrecer, Usuario user) throws AtraccionException {
 		String eleccion = "";
 		Scanner respuesta = new Scanner(System.in);
 
-		System.out.println("¿Acepta agregar a su itinerario " + productoAofrecer.obtenerNombre() + "?");
+		System.out.println("Â¿Acepta agregar a su itinerario " + productoAofrecer.obtenerNombre() + "?");
 		System.out.println("Si desea aceptar la oferta responda Si, en caso contrario escriba No");
 
 		eleccion = respuesta.next().toUpperCase();
@@ -47,7 +47,7 @@ public class Ofertable {
 	}
 
 	// Metodo del proceso de oferta
-	public List<Producto> ofertarProducto() throws AtraccionException {
+	public void ofertarProducto() throws AtraccionException, SQLException {
 		List<Producto> productosAceptados = new ArrayList<Producto>();
 
 		for (Producto ofrecer : this.productos) {
@@ -62,15 +62,15 @@ public class Ofertable {
 				}
 			}
 		}
-
-		return productosAceptados;
+            UsuarioDAO userD = new UsuarioDAO();
+            userD.actualizarItinerario(this.user);
 	}
 
 	// Metodo que genera el archivo de salida.
 	public void imprimirEnArchivoItinerario() throws IOException {
 		PrintWriter salida = new PrintWriter(new FileWriter("Itinerario_De_" + user.obtenerNombre() + ".out"));
 		salida.println("Lista de Actividades");
-		for (Producto actividad : user.itinerario) {
+		for (Producto actividad : user.obtenerItinerario()) {
 			salida.println(actividad.obtenerNombre());
 		}
 		salida.println(user.resumenItinerario());

@@ -1,21 +1,16 @@
 package tierraMedia;
 
-import java.util.List;
-
 public class Absolutas extends Promociones {
-
-	public Absolutas(TIPO_DE_ATRACCION tipo, String nombre, TIPO_DE_PROMOCIONES promociones, double costo, int cantidad,
-			List<Atracciones> atracciones) {
-		super(tipo, nombre, promociones, cantidad, atracciones);
-		this.costo = aplicarPromocion(costo);
+	private double costoPromo;
+	
+	public Absolutas(int id, String tipo, String nombre, String promociones, double costo) {
+		super(id, tipo, nombre, promociones);
+		this.costoPromo = costo;
 	}
 
-	/**
-	 * post: Modifica el costo de la promocion por el costo descontado que se
-	 * establece por el pack.
-	 */
-	public double aplicarPromocion(double costo) {
-		return costo;
-	}
+	public void aplicarPromocion() {
+		this.costo = this.costoPromo;
+			}
 
+		
 }
