@@ -1,0 +1,4 @@
+Moria,10,2,8,AVENTURA
+Minas Tirith,cinco,2.5,-25,PAISAJE
+La Comarca,3,6.5,-150,DEGUSTACION
+Erebor,12,tres,32,PAISAJE

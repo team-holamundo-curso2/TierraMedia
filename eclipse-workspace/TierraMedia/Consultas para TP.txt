@@ -1,0 +1,88 @@
+
+PORCENTUAL: 
+
+
+SELECT promocion.nombre, tipo_promo.nombre AS 'Promocion', porcentuales.descuento AS 'Porcentaje', atraccion.nombre 
+FROM promocion
+JOIN porcentuales ON promocion.tipo_promo_id = 3 AND promocion.id = porcentuales.promo_id
+JOIN atraccion_promocion ON promocion.id = atraccion_promocion.promocion_id
+JOIN atraccion ON atraccion_promocion.atraccion_id = atraccion.id
+JOIN tipo_promo ON promocion.tipo_promo_id = tipo_promo.id
+ORDER BY promocion.id
+
+
+ABSOLUTA:
+
+SELECT promocion.nombre, tipo_promo.nombre AS 'Promocion', absoluta.total AS 'Costo total', atraccion.nombre 
+FROM promocion
+JOIN absoluta ON promocion.tipo_promo_id = 1 AND promocion.id = absoluta.promo_id
+JOIN atraccion_promocion ON promocion.id = atraccion_promocion.promocion_id
+JOIN atraccion ON atraccion_promocion.atraccion_id = atraccion.id
+JOIN tipo_promo ON promocion.tipo_promo_id = tipo_promo.id
+
+AXB:
+
+SELECT promocion.nombre, tipo_promo.nombre AS 'Promocion', axb.atraccion_gratis_id AS 'Atraccion Gratis', atraccion.nombre 
+FROM promocion
+JOIN axb ON promocion.tipo_promo_id = 2 AND promocion.id = axb.promo_id
+JOIN atraccion_promocion ON promocion.id = atraccion_promocion.promocion_id
+JOIN atraccion ON atraccion_promocion.atraccion_id = atraccion.id
+JOIN tipo_promo ON promocion.tipo_promo_id = tipo_promo.id
+
+
+
+TODAS LAS PROMOS EN 1 CONSULTA:
+
+SELECT promocion.id, promocion.nombre, tipo_promo.nombre AS 'Promocion', tipo_atraccion.nombre AS 'Tipo Atraccion', porcentuales.descuento AS 'Condicion'
+FROM promocion
+JOIN porcentuales ON promocion.tipo_promo_id = 3 AND promocion.id = porcentuales.promo_id
+JOIN atraccion_promocion ON promocion.id = atraccion_promocion.promocion_id
+JOIN atraccion ON atraccion_promocion.atraccion_id = atraccion.id 
+JOIN tipo_promo ON promocion.tipo_promo_id = tipo_promo.id
+JOIN tipo_atraccion ON porcentuales.tipo_atraccion = tipo_atraccion.id
+GROUP BY promocion.nombre
+
+UNION ALL
+
+
+SELECT promocion.id, promocion.nombre, tipo_promo.nombre AS 'Promocion',tipo_atraccion.nombre AS 'Tipo Atraccion', absoluta.total AS 'Condicion'
+FROM promocion
+JOIN absoluta ON promocion.tipo_promo_id = 1 AND promocion.id = absoluta.promo_id
+JOIN atraccion_promocion ON promocion.id = atraccion_promocion.promocion_id
+JOIN atraccion ON atraccion_promocion.atraccion_id = atraccion.id 
+JOIN tipo_promo ON promocion.tipo_promo_id = tipo_promo.id
+JOIN tipo_atraccion ON absoluta.tipo_atraccion = tipo_atraccion.id
+GROUP BY promocion.nombre
+UNION ALL
+
+SELECT promocion.id, promocion.nombre, tipo_promo.nombre AS 'Promocion',tipo_atraccion.nombre AS 'Tipo Atraccion', axb.atraccion_gratis_id AS 'Condicion'
+FROM promocion
+JOIN axb ON promocion.tipo_promo_id = 2 AND promocion.id = axb.promo_id
+JOIN atraccion_promocion ON promocion.id = atraccion_promocion.promocion_id
+JOIN atraccion ON atraccion_promocion.atraccion_id = atraccion.id
+JOIN tipo_promo ON promocion.tipo_promo_id = tipo_promo.id
+JOIN tipo_atraccion ON axb.tipo_atraccion = tipo_atraccion.id
+GROUP BY promocion.nombre
+
+
+
+CONSULTA TABLA USUARIO DAO
+
+SELECT usuario.nombre, tipo_atraccion.nombre, usuario.monedas, usuario.tiempo 
+FROM USUARIO 
+JOIN tipo_atraccion ON tipo_atraccion.id = usuario.preferencia
+------------------------------------------------------------
+UPDATE USUARIO 
+SET MONEDAS = ? WHERE NOMBRE = ?
+------------------------------------------------------------
+UPDATE USUARIO 
+SET TIEMPO = ? WHERE NOMBRE = ?
+
+CONSULTA TABLA ATRACCIONES DAO
+
+SELECT atraccion.nombre, atraccion.costo, atraccion.tiempo, atraccion.cupo, tipo_atraccion.nombre 
+FROM atraccion 
+JOIN tipo_atraccion ON atraccion.tipo_id = tipo_atraccion.id
+-----------------------------------------------------------
+UPDATE ATRACCION 
+SET CUPO = ? WHERE NOMBRE = ?
