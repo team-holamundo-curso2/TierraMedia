@@ -64,6 +64,14 @@ public class Usuario {
 	public List<Producto> obtenerItinerario() {
 		return this.itinerario;
 	}
+	
+	public List<Producto> consultarItinerario(List<Producto> productos, Usuario user) throws SQLException {
+		UsuarioDAO userDAO = new UsuarioDAO();
+		if (userDAO.consultaPrimerUso(user) >= 1) {
+		user.cargarItinerario(userDAO.filtrarProductos(productos, user));		
+	}
+	return user.obtenerItinerario();
+}
 
 	public String resumenItinerario() {
 		double costoTotal = 0;
@@ -82,9 +90,11 @@ public class Usuario {
 				+ ", preferencia=" + preferencia + "]";
 	}
 
-	public void setItinerario(List<Producto> itinerario) {
+	public void cargarItinerario(List<Producto> itinerario) {
 		this.itinerario = itinerario;
-		this.cantidadDeProductosCargados = this.itinerario.size();
+		if (this.itinerario != null) {
+			this.cantidadDeProductosCargados = this.itinerario.size();
+		}
 	}
 
 	public int obtenerCantidadProductosPreCargados() {
@@ -95,6 +105,5 @@ public class Usuario {
 	public int hashCode() {
 		return Objects.hash(idUsuario);
 	}
-
 
 }

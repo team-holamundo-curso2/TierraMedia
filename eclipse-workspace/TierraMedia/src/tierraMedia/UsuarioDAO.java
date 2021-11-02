@@ -23,6 +23,59 @@ public class UsuarioDAO {
 			usuarios.add(crearUsuario(resultados));
 		}
 		return usuarios;
+		}
+
+	
+
+	int consultaPrimerUso(Usuario user) throws SQLException {
+		String sql = "SELECT COUNT(*)\n" + "FROM itinerario_usuario\n" + "WHERE usuario_id = ?";
+		Connection conn = ConnectionProvider.getConnection();
+		PreparedStatement statement = conn.prepareStatement(sql);
+		statement.setInt(1, user.obtenerIdUsuario());
+		ResultSet resultados = statement.executeQuery();
+		return resultados.getInt(1);
+
+	}
+
+	List<Producto> filtrarProductos(List<Producto> productos, Usuario user) throws SQLException {
+		List<Producto> prodFiltrada = new ArrayList<Producto>();
+		String sql = "SELECT *\r\n" + "FROM itinerario_usuario\r\n" + "WHERE usuario_id = ?";
+		Connection conn = ConnectionProvider.getConnection();
+		PreparedStatement statement = conn.prepareStatement(sql);
+		statement.setInt(1, user.obtenerIdUsuario());
+		ResultSet resultado = statement.executeQuery();
+		while (resultado.next()) {
+			if (resultado.getInt(3) == 0) {
+				int idAtraccion = resultado.getInt(4);
+				prodFiltrada.add(buscarAtraccion(idAtraccion, productos));
+			} else {
+				int idPromo = resultado.getInt(3);
+				prodFiltrada.add(buscarPromocion(idPromo, productos));
+			}
+		}
+		return prodFiltrada;
+	}
+
+	private Producto buscarAtraccion(int idAtraccion, List<Producto> productos) throws SQLException {
+		Producto p = null;
+		for (Producto produc : productos) {
+			if (!produc.esPromocion() && produc.obtenerID() == idAtraccion) {
+				p = produc;
+			}
+
+		}
+		return p;
+	}
+
+	private Producto buscarPromocion(int idPromo, List<Producto> productos) throws SQLException {
+		Producto p = null;
+		for (Producto produc : productos) {
+			if (produc.esPromocion() && produc.obtenerID() == idPromo) {
+				p = produc;
+			}
+
+		}
+		return p;
 	}
 
 	private Usuario crearUsuario(ResultSet resultados) throws SQLException {
@@ -74,5 +127,28 @@ public class UsuarioDAO {
 		return rows;
 	}
 
+	public static void main(String[] args) throws SQLException {
+		AtraccionesDAO aDAO = new AtraccionesDAO();
+		List<Atracciones> atrLista = new ArrayList<Atracciones>();
+		List<Promociones> promoLista = new ArrayList<Promociones>();
+		List<Producto> prodLista = new ArrayList<Producto>();
+		atrLista.addAll(aDAO.crearListaDeAtracciones());
+		PromocionesDAO pDAO = new PromocionesDAO();
+		pDAO.crearListaDePromociones(atrLista);
+
+		UsuarioDAO userDAO = new UsuarioDAO();
+		List<Usuario> userLista = new ArrayList<Usuario>();
+		userLista.addAll(userDAO.crearListaDeUsuarios());
+		System.out.println(userLista);
+
+		for (Usuario user : userLista) {
+			System.out.println(user.obtenerNombre());
+			System.out.println(user.obtenerIdUsuario());
+			System.out.println(user.obtenerPreferencia());
+			System.out.println(user.obtenerCantidadProductosPreCargados());
+			System.out.println(user.obtenerItinerario());
+		}
+
+	}
 
 }

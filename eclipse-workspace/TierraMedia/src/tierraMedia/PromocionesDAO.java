@@ -103,44 +103,4 @@ public class PromocionesDAO {
 			return new AXB(id, tipo, nombre, tipoPromo, condicion);
 		}
 	}
-
-	public static void main(String[] args) throws SQLException {
-		List<Promociones> promociones = new ArrayList<Promociones>();
-		AtraccionesDAO atrDAO = new AtraccionesDAO();
-		System.out.println(atrDAO.crearListaDeAtracciones());
-		PromocionesDAO promoDAO = new PromocionesDAO();
-		
-		System.out.println(promociones.addAll(promoDAO.crearListaDePromociones(atrDAO.crearListaDeAtracciones())));
-		System.out.println("________________________________________________________");
-		promociones.get(0).asignarCosto();
-		System.out.println(promociones.get(0).obtenerNombre());
-		System.out.println(promociones.get(0).obtenerID());
-		System.out.println(promociones.get(0).obtenerTipoPromo());
-		System.out.println(promociones.get(0).obtenerCosto());
-		System.out.println(promociones.get(0).obtenerAtracciones());
-		System.out.println("________________________________________________________");
-		promociones.get(1).asignarCosto();
-		System.out.println(promociones.get(1).obtenerNombre());
-		System.out.println(promociones.get(1).obtenerID());
-		System.out.println(promociones.get(1).obtenerTipoPromo());
-		System.out.println(promociones.get(1).obtenerCosto());
-		System.out.println(promociones.get(1).obtenerAtracciones());
-		System.out.println("________________________________________________________");
-		promociones.get(2).asignarCosto();
-		System.out.println(promociones.get(2).obtenerNombre());
-		System.out.println(promociones.get(2).obtenerTipoPromo());
-		System.out.println(promociones.get(2).obtenerID());
-		System.out.println(promociones.get(2).obtenerCosto());
-		System.out.println(promociones.get(2).obtenerAtracciones());
-		System.out.println("________________________________________________________");
-		promociones.get(3).asignarCosto();
-		System.out.println(promociones.get(3).obtenerCosto());
-		System.out.println(promociones.get(3).obtenerAtracciones());
-		System.out.println(promociones.get(3).obtenerID());
-		System.out.println(promociones.get(3).obtenerTipoPromo());
-		System.out.println(promociones.get(3).obtenerNombre());
-		System.out.println(promociones.get(3).atracciones.get(0).obtenerCosto());
-		System.out.println(promociones.get(3).atracciones.get(1).obtenerCosto());
-		System.out.println(promociones.get(3).atracciones.get(2).obtenerCosto());
 	}
-}
