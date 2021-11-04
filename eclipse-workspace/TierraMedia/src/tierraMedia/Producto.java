@@ -40,6 +40,8 @@ public abstract class Producto {
 	public abstract boolean hayCupo();
 
 	public abstract void restarCupo() throws SQLException;
+	
+	public abstract void reiniciarCupo() throws SQLException;
 
 	protected double obtenerCosto() {
 		return this.costo;

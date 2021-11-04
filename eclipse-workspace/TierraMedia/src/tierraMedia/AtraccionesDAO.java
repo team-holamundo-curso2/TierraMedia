@@ -24,8 +24,8 @@ public class AtraccionesDAO {
 	}
 
 	private Atracciones crearAtracciones(ResultSet resultados) throws SQLException {
-		return new Atracciones(resultados.getInt(1), resultados.getString(6), resultados.getString(2), resultados.getDouble(3),
-				resultados.getDouble(4), resultados.getInt(5));
+		return new Atracciones(resultados.getInt(1), resultados.getString(6), resultados.getString(2),
+				resultados.getDouble(3), resultados.getDouble(4), resultados.getInt(5));
 	}
 
 	public int actualizarCupo(Atracciones atr) throws SQLException {
@@ -39,22 +39,16 @@ public class AtraccionesDAO {
 
 		return rows;
 	}
-	public static void main(String[] args) throws SQLException {
-		AtraccionesDAO aDAO = new AtraccionesDAO();
-		List<Atracciones> atrLista = new ArrayList<Atracciones>();
-		
-		System.out.println(atrLista.addAll(aDAO.crearListaDeAtracciones()));
-				
-		System.out.println("_____________________________");
-		System.out.println(atrLista.get(1));
-		System.out.println(atrLista.get(1).obtenerCupoDePersonas());
-		atrLista.get(1).restarCupo();
-		
-		System.out.println("_____________________________");
-		
-		System.out.println(atrLista.get(1).obtenerCupoDePersonas());
-		}
-	
+
+	public int restaurarCupo(Atracciones atr) throws SQLException {
+		String sql = "UPDATE ATRACCION SET CUPO = ? WHERE NOMBRE = ?";
+		Connection conn = ConnectionProvider.getConnection();
+
+		PreparedStatement statement = conn.prepareStatement(sql);
+		statement.setInt(1, atr.obtenerCupoDePersonas());
+		statement.setString(2, atr.obtenerNombre());
+		int rows = statement.executeUpdate();
+
+		return rows;
+	}
 }
-
-

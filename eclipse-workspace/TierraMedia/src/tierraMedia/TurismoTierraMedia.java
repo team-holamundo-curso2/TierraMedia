@@ -8,8 +8,12 @@ import java.util.List;
 public class TurismoTierraMedia {
 
 	private List<Usuario> usuarios;
+
+
 	private List<Atracciones> atrLista;
 	private List<Producto> productosDesordenados;
+
+
 
 	private Ofertable ofertador;
 
@@ -38,6 +42,13 @@ public class TurismoTierraMedia {
 		productos.addAll(atrLista);
 
 		return this.productosDesordenados = productos;
+	}
+	
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+	public List<Producto> getProductosDesordenados() {
+		return productosDesordenados;
 	}
 
 	// Metodo para ordenar los productos segun preferencia del usuario.

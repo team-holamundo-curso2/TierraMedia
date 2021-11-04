@@ -58,7 +58,7 @@ public class OfertableTest {
 		pepita.crearItinerario(atr2);
 		pepita.crearItinerario(atr3);
 		
-		pepita.setItinerario(prodLista);
+		pepita.cargarItinerario(prodLista);
 		
 		ofertador = new Ofertable(pepita, pepita.obtenerItinerario());
 	}

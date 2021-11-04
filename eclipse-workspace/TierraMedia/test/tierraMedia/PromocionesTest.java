@@ -2,6 +2,7 @@ package tierraMedia;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +28,12 @@ public class PromocionesTest {
 
 	@Before
 	public void setUp() throws Exception {
-		atr1 = new Atracciones(TIPO_DE_ATRACCION.AVENTURA, "Moria", 10, 2, 6);
-		atr2 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Minas Tirith", 5, 2.5, 25);
-		atr3 = new Atracciones(TIPO_DE_ATRACCION.DEGUSTACION, "La Comarca", 3, 6.5, 150);
-		atr4 = new Atracciones(TIPO_DE_ATRACCION.AVENTURA, "Mordor", 25, 3, 4);
-		atr5 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Abismo de Helm", 5, 2, 15);
-		atr6 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Erebor", 12, 3, 32);
+		atr1 = new Atracciones(1, "AVENTURA", "Moria", 10, 2, 6);
+		atr2 = new Atracciones(2, "PAISAJE", "Minas Tirith", 5, 2.5, 25);
+		atr3 = new Atracciones(3, "DEGUSTACION", "La Comarca", 3, 6.5, 150);
+		atr4 = new Atracciones(4, "AVENTURA", "Mordor", 25, 3, 4);
+		atr5 = new Atracciones(5, "PAISAJE", "Abismo de Helm", 5, 2, 15);
+		atr6 = new Atracciones(7, "PAISAJE", "Erebor", 12, 3, 32);
 		atrLista.add(atr1);
 		atrLista.add(atr2);
 		atrLista.add(atr3);
@@ -42,9 +43,8 @@ public class PromocionesTest {
 		atrLista2.add(atr2);
 		atrLista2.add(atr5);
 		atrLista2.add(atr6);
-		promo2 = new AXB(TIPO_DE_ATRACCION.PAISAJE, "Pack Paisaje", TIPO_DE_PROMOCIONES.AXB, 3, atrLista2);
-		promo4 = new Porcentuales(TIPO_DE_ATRACCION.AVENTURA, "Pack Aventura", TIPO_DE_PROMOCIONES.PORCENTUALES, 50, 3,
-				atrLista);
+		promo2 = new AXB(3, "PAISAJE", "Pack Paisaje", "AXB", 3);
+		promo4 = new Porcentuales(1, "AVENTURA", "Pack Aventura", "PORCENTUALES", 50);
 		promoLista.add(promo1);
 		promoLista.add(promo2);
 		prodLista.addAll(promoLista);
@@ -69,7 +69,7 @@ public class PromocionesTest {
 	}
 
 	@Test
-	public void pruebaDeCupo() {
+	public void pruebaDeCupo() throws SQLException {
 		// Resta 1 de cupo de cada atraccion
 		promo2.restarCupo();
 		assertEquals(24, promo2.atracciones.get(0).obtenerCupoDePersonas());

@@ -73,6 +73,12 @@ public abstract class Promociones extends Producto {
 			atraccion.restarCupo();
 		}
 	}
+	
+	public void reiniciarCupo() throws SQLException {
+		for (Atracciones atraccion : this.atracciones) {
+			atraccion.reiniciarCupo();
+		}
+	}
 
 	@Override
 	public boolean contiene(Producto p) {

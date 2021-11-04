@@ -92,14 +92,14 @@ public class PromocionesDAO {
 	private Promociones crearPromociones(int id, String tipo, String nombre, String tipoPromo, double condicion) throws SQLException {
 		
 		if (tipoPromo.equals("ABSOLUTA")) {
-			System.out.println("Creo tipo Absoluta");
+			
 			return new Absolutas(id, tipo, nombre, tipoPromo, condicion);
 		}
 		if (tipoPromo.equals("PORCENTUALES")) {
-			System.out.println("Creo tipo Porcentuales");
+			
 			return new Porcentuales(id, tipo, nombre, tipoPromo, condicion);
 		} else {
-			System.out.println("Creo tipo AXB");
+			
 			return new AXB(id, tipo, nombre, tipoPromo, condicion);
 		}
 	}

@@ -17,11 +17,21 @@ public class AtraccionesDAOTest {
 	public void setUp() throws Exception {
 		aDAO = new AtraccionesDAO();
 		atrLista = new ArrayList<Atracciones>();
+		atrLista.addAll(aDAO.crearListaDeAtracciones());
 	}
 
-	@Test
+	@Test 
 	public void crearListaDeAtraccionesTest() throws SQLException {
-		aDAO.crearListaDeAtracciones();
+		assertEquals(8, atrLista.size());
 	}
-
+	
+	@Test
+	public void cupoTest() throws SQLException {
+		atrLista.get(0).obtenerCupoDePersonas();
+		assertEquals(48, atrLista.get(0).obtenerCupoDePersonas());
+		atrLista.get(0).restarCupo();
+		assertEquals(47, atrLista.get(0).obtenerCupoDePersonas());
+		atrLista.get(0).reiniciarCupo();
+		assertEquals(48, atrLista.get(0).obtenerCupoDePersonas());
+		}
 }

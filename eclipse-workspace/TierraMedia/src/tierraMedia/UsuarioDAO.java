@@ -23,9 +23,7 @@ public class UsuarioDAO {
 			usuarios.add(crearUsuario(resultados));
 		}
 		return usuarios;
-		}
-
-	
+	}
 
 	int consultaPrimerUso(Usuario user) throws SQLException {
 		String sql = "SELECT COUNT(*)\n" + "FROM itinerario_usuario\n" + "WHERE usuario_id = ?";
@@ -125,30 +123,6 @@ public class UsuarioDAO {
 		int rows = statement.executeUpdate();
 
 		return rows;
-	}
-
-	public static void main(String[] args) throws SQLException {
-		AtraccionesDAO aDAO = new AtraccionesDAO();
-		List<Atracciones> atrLista = new ArrayList<Atracciones>();
-		List<Promociones> promoLista = new ArrayList<Promociones>();
-		List<Producto> prodLista = new ArrayList<Producto>();
-		atrLista.addAll(aDAO.crearListaDeAtracciones());
-		PromocionesDAO pDAO = new PromocionesDAO();
-		pDAO.crearListaDePromociones(atrLista);
-
-		UsuarioDAO userDAO = new UsuarioDAO();
-		List<Usuario> userLista = new ArrayList<Usuario>();
-		userLista.addAll(userDAO.crearListaDeUsuarios());
-		System.out.println(userLista);
-
-		for (Usuario user : userLista) {
-			System.out.println(user.obtenerNombre());
-			System.out.println(user.obtenerIdUsuario());
-			System.out.println(user.obtenerPreferencia());
-			System.out.println(user.obtenerCantidadProductosPreCargados());
-			System.out.println(user.obtenerItinerario());
-		}
-
 	}
 
 }
