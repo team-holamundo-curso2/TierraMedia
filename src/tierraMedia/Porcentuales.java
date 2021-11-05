@@ -16,12 +16,18 @@ public class Porcentuales extends Promociones {
 	/**
 	 * post: Se le resta el porcetaje de descuento al costo total.
 	 */
-	public void aplicarPromocion() {
+	public void aplicarPromocionPorcentual() {
 		double costoTotal = 0;
 		for (Atracciones atraccion : this.atracciones) {
 			costoTotal += atraccion.costo;
 		}
 		this.costo = costoTotal -= (costoTotal * this.porcentaje / 100);
+	}
+
+	@Override
+	public void asignarCosto() {
+		this.aplicarPromocionPorcentual();
+		
 	}
 
 }

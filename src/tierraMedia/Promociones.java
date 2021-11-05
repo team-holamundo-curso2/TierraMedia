@@ -13,31 +13,23 @@ public abstract class Promociones extends Producto {
 
 	protected List<Atracciones> atracciones;
 
-	public Promociones(String tipo, String nombre, String promociones) {
-		super(tipo, nombre);
-		this.tipoPromo = promociones;
-		
-
-	}
-
 	public Promociones(int id, String tipo, String nombre, String promociones) {
 		super(tipo, nombre);
 		this.tipoPromo = promociones;
 		this.idPromocion = id;
-		
-
 	}
 
-	public abstract void aplicarPromocion();
-	
+	public Promociones(String tipo, String nombre, String promociones) {
+		super(tipo, nombre);
+		this.tipoPromo = promociones;
+	}
+
 	public void asignarListaAtracciones(List<Atracciones> atrac) {
 		this.atracciones = atrac;
-		
+
 	}
-	
-	public void asignarCosto() {
-		this.aplicarPromocion(); 
-	}
+
+	public abstract void asignarCosto();
 
 	@Override
 	public double obtenerTiempo() {
@@ -81,6 +73,12 @@ public abstract class Promociones extends Producto {
 			atraccion.restarCupo();
 		}
 	}
+	
+	public void reiniciarCupo() throws SQLException {
+		for (Atracciones atraccion : this.atracciones) {
+			atraccion.reiniciarCupo();
+		}
+	}
 
 	@Override
 	public boolean contiene(Producto p) {
@@ -94,8 +92,7 @@ public abstract class Promociones extends Producto {
 
 	@Override
 	public String toString() {
-		return "[Nombre=" + nombre + ", tipoPromo=" + tipoPromo + ", Atracciones="
-				+ this.obtenerAtracciones() + "]";
+		return "[Nombre=" + nombre + ", tipoPromo=" + tipoPromo + ", Atracciones=" + this.obtenerAtracciones() + "]";
 	}
 
 	@Override
@@ -103,10 +100,10 @@ public abstract class Promociones extends Producto {
 		return true;
 	}
 
-	public int obtenerIdPromocion() {
+	public int obtenerID() {
 		return this.idPromocion;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

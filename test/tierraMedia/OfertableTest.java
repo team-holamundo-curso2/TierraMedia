@@ -31,16 +31,16 @@ public class OfertableTest {
 	@Before
 	public void setUp() {
 
-		pepita = new Usuario("Pepita", TIPO_DE_ATRACCION.AVENTURA, 50, 20);
-		atr1 = new Atracciones(TIPO_DE_ATRACCION.AVENTURA, "Moria", 10, 2, 6);
-		atr2 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Minas Tirith", 5, 2.5, 25);
-		atr3 = new Atracciones(TIPO_DE_ATRACCION.DEGUSTACION, "La Comarca", 3, 6.5, 150);
-		atr4 = new Atracciones(TIPO_DE_ATRACCION.AVENTURA, "Mordor", 25, 3, 4);
-		atr5 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Abismo de Helm", 5, 2, 15);
-		atr6 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Erebor", 12, 3, 32);
-		atr7 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Erebor2", 122, 3, 32);
-		atr8 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Erebor3", 123, 3, 32);
-		atr9 = new Atracciones(TIPO_DE_ATRACCION.PAISAJE, "Erebor4", 124, 3, 32);
+		pepita = new Usuario(1, "Pepita", "AVENTURA", 50, 20);
+		atr1 = new Atracciones(1, "AVENTURA", "Moria", 10, 2, 6);
+		atr2 = new Atracciones(2, "PAISAJE", "Minas Tirith", 5, 2.5, 25);
+		atr3 = new Atracciones(3, "DEGUSTACION", "La Comarca", 3, 6.5, 150);
+		atr4 = new Atracciones(4, "AVENTURA", "Mordor", 25, 3, 4);
+		atr5 = new Atracciones(5, "PAISAJE", "Abismo de Helm", 5, 2, 15);
+		atr6 = new Atracciones(7, "PAISAJE", "Erebor", 12, 3, 32);
+		atr7 = new Atracciones(8, "PAISAJE", "Erebor2", 122, 3, 32);
+		atr8 = new Atracciones(9, "PAISAJE", "Erebor3", 123, 3, 32);
+		atr9 = new Atracciones(10, "PAISAJE", "Erebor4", 124, 3, 32);
 		atrLista.add(atr1);
 		atrLista.add(atr2);
 		atrLista.add(atr3);
@@ -50,17 +50,17 @@ public class OfertableTest {
 		atrLista2.add(atr7);
 		atrLista2.add(atr8);
 		atrLista2.add(atr9);
-		promo1 = new Porcentuales(TIPO_DE_ATRACCION.AVENTURA, "Pack Aventura", TIPO_DE_PROMOCIONES.PORCENTUALES, 30, 2,
-				atrLista);
-		promo2 = new AXB(TIPO_DE_ATRACCION.PAISAJE, "Pack Paisaje", TIPO_DE_PROMOCIONES.AXB, 3, atrLista2);
+		promo1 = new Porcentuales(1,"AVENTURA", "Pack Aventura", "PORCENTUALES", 30);
+		promo2 = new AXB(3,"PAISAJE", "Pack Paisaje", "AXB", 7);
 
-		prodLista.add(promo1);
-		prodLista.add(atr1);
-		prodLista.add(atr2);
-		prodLista.add(atr3);
-
-		pepita.itinerario = prodLista;
-		ofertador = new Ofertable(pepita, prodLista);
+		pepita.crearItinerario(promo1);
+		pepita.crearItinerario(atr1);
+		pepita.crearItinerario(atr2);
+		pepita.crearItinerario(atr3);
+		
+		pepita.cargarItinerario(prodLista);
+		
+		ofertador = new Ofertable(pepita, pepita.obtenerItinerario());
 	}
 
 	@Test

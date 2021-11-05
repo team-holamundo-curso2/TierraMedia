@@ -1,6 +1,6 @@
 package tierraMedia;
 
-import java.io.FileWriter;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -48,7 +48,6 @@ public class Ofertable {
 
 	// Metodo del proceso de oferta
 	public void ofertarProducto() throws AtraccionException, SQLException {
-		List<Producto> productosAceptados = new ArrayList<Producto>();
 
 		for (Producto ofrecer : this.productos) {
 			if (this.user.obtenerMonedas() >= ofrecer.obtenerCosto()
@@ -58,24 +57,15 @@ public class Ofertable {
 					this.user.aceptar(ofrecer);
 					user.crearItinerario(ofrecer);
 					ofrecer.restarCupo();
-					productosAceptados.add(ofrecer);
 				}
 			}
 		}
-            UsuarioDAO userD = new UsuarioDAO();
-            userD.actualizarItinerario(this.user);
+
 	}
 
-	// Metodo que genera el archivo de salida.
-	public void imprimirEnArchivoItinerario() throws IOException {
-		PrintWriter salida = new PrintWriter(new FileWriter("Itinerario_De_" + user.obtenerNombre() + ".out"));
-		salida.println("Lista de Actividades");
-		for (Producto actividad : user.obtenerItinerario()) {
-			salida.println(actividad.obtenerNombre());
-		}
-		salida.println(user.resumenItinerario());
-		salida.close();
-
+	public void armarItinerario(Usuario user) throws SQLException {
+		UsuarioDAO userD = new UsuarioDAO();
+		userD.actualizarItinerario(user);
 	}
 
 }

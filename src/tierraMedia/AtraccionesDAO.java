@@ -18,17 +18,37 @@ public class AtraccionesDAO {
 
 		List<Atracciones> atracciones = new LinkedList<Atracciones>();
 		while (resultados.next()) {
-			atracciones.add(crearAtracciones(resultados));
+			try {
+				atracciones.add(crearAtracciones(resultados));
+			} catch (ProductoException mti) {
+				System.err.println(mti.getMessage());
+			} catch (NumberFormatException error) {
+				System.err.println("El formato es incorrecto");
+			} catch (AtraccionException aerror) {
+				System.err.println(aerror.getMessage());
+			}
 		}
 		return atracciones;
 	}
 
 	private Atracciones crearAtracciones(ResultSet resultados) throws SQLException {
-		return new Atracciones(resultados.getInt(1), resultados.getString(6), resultados.getString(2), resultados.getDouble(3),
-				resultados.getDouble(4), resultados.getInt(5));
+		return new Atracciones(resultados.getInt(1), resultados.getString(6), resultados.getString(2),
+				resultados.getDouble(3), resultados.getDouble(4), resultados.getInt(5));
 	}
 
 	public int actualizarCupo(Atracciones atr) throws SQLException {
+		String sql = "UPDATE ATRACCION SET CUPO = ? WHERE NOMBRE = ?";
+		Connection conn = ConnectionProvider.getConnection();
+
+		PreparedStatement statement = conn.prepareStatement(sql);
+		statement.setInt(1, atr.obtenerCupoDePersonas());
+		statement.setString(2, atr.obtenerNombre());
+		int rows = statement.executeUpdate();
+
+		return rows;
+	}
+
+	public int restaurarCupo(Atracciones atr) throws SQLException {
 		String sql = "UPDATE ATRACCION SET CUPO = ? WHERE NOMBRE = ?";
 		Connection conn = ConnectionProvider.getConnection();
 

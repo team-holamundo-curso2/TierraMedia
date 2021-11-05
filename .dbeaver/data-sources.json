@@ -24,6 +24,19 @@
 				"database": "/home/vio/eclipse-workspace/TierraMedia/archivos/tierraMediaBD.db",
 				"url": "jdbc:sqlite:/home/vio/eclipse-workspace/TierraMedia/archivos/tierraMediaBD.db",
 				"type": "dev",
+				"auth-model": "native"
+			}
+		},
+		"sqlite_jdbc-17ced291f3c-18090e32479ae824": {
+			"provider": "sqlite",
+			"driver": "sqlite_jdbc",
+			"name": "tierraMediaBD.db 3",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"database": "/home/vio/eclipse-workspace/TierraMedia/archivos/tierraMediaBD.db",
+				"url": "jdbc:sqlite:/home/vio/eclipse-workspace/TierraMedia/archivos/tierraMediaBD.db",
+				"type": "dev",
 				"auth-model": "native",
 				"handlers": {}
 			}

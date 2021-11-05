@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class UsuarioDAO {
 
@@ -18,93 +20,113 @@ public class UsuarioDAO {
 
 		List<Usuario> usuarios = new LinkedList<Usuario>();
 		while (resultados.next()) {
-			usuarios.add(crearUsuario(resultados));
+			try{
+				usuarios.add(crearUsuario(resultados));
+			}catch (UsuarioException rne) {
+				System.err.println(rne.getMessage());
+			}
 		}
 		return usuarios;
+	}
+
+	int consultaPrimerUso(Usuario user) throws SQLException {
+		String sql = "SELECT COUNT(*)\n" + "FROM itinerario_usuario\n" + "WHERE usuario_id = ?";
+		Connection conn = ConnectionProvider.getConnection();
+		PreparedStatement statement = conn.prepareStatement(sql);
+		statement.setInt(1, user.obtenerIdUsuario());
+		ResultSet resultados = statement.executeQuery();
+		return resultados.getInt(1);
+
+	}
+
+	List<Producto> filtrarProductos(List<Producto> productos, Usuario user) throws SQLException {
+		List<Producto> prodFiltrada = new ArrayList<Producto>();
+		String sql = "SELECT *\r\n" + "FROM itinerario_usuario\r\n" + "WHERE usuario_id = ?";
+		Connection conn = ConnectionProvider.getConnection();
+		PreparedStatement statement = conn.prepareStatement(sql);
+		statement.setInt(1, user.obtenerIdUsuario());
+		ResultSet resultado = statement.executeQuery();
+		while (resultado.next()) {
+			if (resultado.getInt(3) == 0) {
+				int idAtraccion = resultado.getInt(4);
+				prodFiltrada.add(buscarAtraccion(idAtraccion, productos));
+			} else {
+				int idPromo = resultado.getInt(3);
+				prodFiltrada.add(buscarPromocion(idPromo, productos));
+			}
+		}
+		return prodFiltrada;
+	}
+
+	private Producto buscarAtraccion(int idAtraccion, List<Producto> productos) throws SQLException {
+		Producto p = null;
+		for (Producto produc : productos) {
+			if (!produc.esPromocion() && produc.obtenerID() == idAtraccion) {
+				p = produc;
+			}
+
+		}
+		return p;
+	}
+
+	private Producto buscarPromocion(int idPromo, List<Producto> productos) throws SQLException {
+		Producto p = null;
+		for (Producto produc : productos) {
+			if (produc.esPromocion() && produc.obtenerID() == idPromo) {
+				p = produc;
+			}
+
+		}
+		return p;
 	}
 
 	private Usuario crearUsuario(ResultSet resultados) throws SQLException {
 		return new Usuario(resultados.getInt(1), resultados.getString(2), resultados.getString(3), resultados.getInt(4),
 				resultados.getInt(5));
+
 	}
 
-	public void actualizarItinerario(Usuario user) throws SQLException {
-		
-		if (user.obtenerItinerario().size() > 0) {
-			for (int i = user.obtenerCantidadProductosAceptados() + 1; i <= user.obtenerItinerario().size(); i++) {
-				String sql = "UPDATE ITINERARIO_USUARIO SET PROMO_NOMBRE = ? AND ATRACCION_NOMBRE = ? WHERE USUARIO_ID = ?";
+	public int actualizarItinerario(Usuario user) throws SQLException {
+		int rowss = 0;
+		String sql = "INSERT INTO itinerario_usuario (usuario_id, promo_id) VALUES (?, ?)";
+		String sql2 = "INSERT INTO itinerario_usuario (usuario_id, atraccion_id) VALUES (?, ?)";
+
+		for (int i = user.obtenerCantidadProductosPreCargados(); i < user.obtenerItinerario().size(); i++) {
+
+			if (user.obtenerItinerario().get(i).esPromocion()) {
+
 				Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement statement = conn.prepareStatement(sql);
-				if (user.obtenerItinerario().get(i).esPromocion()) {
-				statement.setString(1, user.obtenerItinerario().get(i).obtenerNombre());
-				} else {
-					statement.setString(2, user.obtenerItinerario().get(i).obtenerNombre());
-				}				
-				statement.setInt(3, user.obtenerIdUsuario());
+				statement.setInt(2, user.obtenerItinerario().get(i).obtenerID());
+				statement.setInt(1, user.obtenerIdUsuario());
 				int rows = statement.executeUpdate();
-			}
-		} else {
-			String sql = "INSERT INTO itinerario_usuario (usuario_id, promo_nombre, atraccion_nombre) VALUES"
-					+ " ('?', '?', '?' )";
-			Connection conn = ConnectionProvider.getConnection();
-
-			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setInt(1, user.obtenerIdUsuario());
-			for (int i = 0; i < user.obtenerItinerario().size(); i++) {
-				if (user.obtenerItinerario().get(i).esPromocion()) {
-				statement.setString(2, user.obtenerItinerario().get(i).obtenerNombre());
+				rowss = rows;
 			} else {
-				statement.setString(3, user.obtenerItinerario().get(i).obtenerNombre());
+
+				Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement statement = conn.prepareStatement(sql2);
+				statement.setInt(2, user.obtenerItinerario().get(i).obtenerID());
+				statement.setInt(1, user.obtenerIdUsuario());
+				int rows = statement.executeUpdate();
+				rowss = rows;
 			}
-			}
-			int rows = statement.executeUpdate();
-		}			
+
+		}
+		return rowss;
+
 	}
 
-	public int actualizarMonedas(Usuario user) throws SQLException {
-		String sql = "UPDATE USUARIO SET MONEDAS = ? WHERE NOMBRE = ?";
+	public int actualizarMonedasYTiempo(Usuario user) throws SQLException {
+		String sql = "UPDATE USUARIO SET MONEDAS = ?, TIEMPO = ? WHERE NOMBRE = ?";
 		Connection conn = ConnectionProvider.getConnection();
 
 		PreparedStatement statement = conn.prepareStatement(sql);
 		statement.setDouble(1, user.obtenerMonedas());
-		statement.setString(2, user.obtenerNombre());
+		statement.setDouble(2, user.obtenerTiempoDisponible());
+		statement.setString(3, user.obtenerNombre());
 		int rows = statement.executeUpdate();
 
 		return rows;
 	}
 
-	public int actualizarTiempo(Usuario user) throws SQLException {
-		String sql = "UPDATE USUARIO SET TIEMPO = ? WHERE NOMBRE = ?";
-		Connection conn = ConnectionProvider.getConnection();
-
-		PreparedStatement statement = conn.prepareStatement(sql);
-		statement.setDouble(1, user.obtenerTiempoDisponible());
-		statement.setString(2, user.obtenerNombre());
-		int rows = statement.executeUpdate();
-
-		return rows;
-	}
-
-	public static void main(String[] args) throws SQLException {
-
-		UsuarioDAO userDAO = new UsuarioDAO();
-		List<Usuario> userLista = new ArrayList<Usuario>();
-		userLista.addAll(userDAO.crearListaDeUsuarios());
-
-		AtraccionesDAO aDAO = new AtraccionesDAO();
-		List<Atracciones> atrLista = new ArrayList<Atracciones>();
-		atrLista.addAll(aDAO.crearListaDeAtracciones());
-		System.out.println(atrLista.get(1));
-
-		System.out.println(userLista.get(1).obtenerMonedas());
-		System.out.println(userLista.get(1).obtenerTiempoDisponible());
-		System.out.println("_____________________________");
-
-		userLista.get(1).aceptar(atrLista.get(1));
-		System.out.println(userLista.get(1).obtenerMonedas());
-		System.out.println(userLista.get(1).obtenerTiempoDisponible());
-		System.out.println("_____________________________");
-		System.out.println(userLista);
-		System.out.println(userLista.get(2).obtenerIdUsuario());
-	}
 }

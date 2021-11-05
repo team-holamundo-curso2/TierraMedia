@@ -12,7 +12,7 @@ public class OfertablesPorPreferencia implements Comparator<Producto> {
 
 	@Override
 	public int compare(Producto o1, Producto o2) {
-		if (o1.tipo == this.preferencia && o2.tipo == this.preferencia) {
+		if (o1.tipo.equals(o2.tipo)) {
 			// ambas son preferidas, compara por lo siguiente (promo)
 			if (o1.esPromocion() && o2.esPromocion()) {
 				// ambas son promos, compara costo

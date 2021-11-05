@@ -8,8 +8,12 @@ import java.util.List;
 public class TurismoTierraMedia {
 
 	private List<Usuario> usuarios;
+
+
 	private List<Atracciones> atrLista;
 	private List<Producto> productosDesordenados;
+
+
 
 	private Ofertable ofertador;
 
@@ -19,9 +23,9 @@ public class TurismoTierraMedia {
 
 	// Crea todas las listas necesarias.
 	public void crearListas() throws SQLException {
-		this.crearListaDeUsuarios();
 		this.crearListasDeProductos();
-	}
+		this.crearListaDeUsuarios();
+		}
 
 	public void crearListaDeUsuarios() throws SQLException {
 		UsuarioDAO userD = new UsuarioDAO();
@@ -39,6 +43,13 @@ public class TurismoTierraMedia {
 
 		return this.productosDesordenados = productos;
 	}
+	
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+	public List<Producto> getProductosDesordenados() {
+		return productosDesordenados;
+	}
 
 	// Metodo para ordenar los productos segun preferencia del usuario.
 	public List<Producto> ordenarProductos(Usuario user) {
@@ -55,13 +66,14 @@ public class TurismoTierraMedia {
 	public void sugerencias() throws IOException, AtraccionException, SQLException {
 
 		for (Usuario user : this.usuarios) {
+			user.consultarItinerario(productosDesordenados, user);
 			this.ofertador = new Ofertable(user, this.ordenarProductos(user));
 			System.out.println("Bienvenido" + " " + user.obtenerNombre());
 			this.ofertador.ofertarProducto();
 			System.out.println(
 					"Muchas Gracias" + " " + user.obtenerNombre() + " " + "por usar nuestros servicios y productos");
 			System.out.println("T  U  R  I  S  M  O  -  T  I  E  R  R  A  -  M  E  D  I  A");
-			this.ofertador.imprimirEnArchivoItinerario();
+			this.ofertador.armarItinerario(user);
 		}
 
 	}

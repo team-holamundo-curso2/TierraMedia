@@ -6,15 +6,13 @@ import java.util.Objects;
 
 public class Atracciones extends Producto {
 
-
-
 	private int cupoDePersonas;
 	public static List<Atracciones> atracciones;
 	protected int idAtraccion;
 
 	public Atracciones(int id, String tipo, String nombre, double costo, double tiempo, int cupoDePersonas) {
 		super(tipo, nombre, costo);
-		this.idAtraccion = id; 
+		this.idAtraccion = id;
 		this.tiempoDeDuracion = tiempo;
 		this.cupoDePersonas = cupoDePersonas;
 	}
@@ -28,6 +26,12 @@ public class Atracciones extends Producto {
 		this.cupoDePersonas--;
 		AtraccionesDAO atrDAO = new AtraccionesDAO();
 		atrDAO.actualizarCupo(this);
+	}
+
+	public void reiniciarCupo() throws SQLException {
+		this.cupoDePersonas++;
+		AtraccionesDAO atrDAO = new AtraccionesDAO();
+		atrDAO.restaurarCupo(this);
 	}
 
 	public int obtenerCupoDePersonas() {
@@ -57,10 +61,6 @@ public class Atracciones extends Producto {
 
 	}
 
-	public int obtenerIdAtraccion() {
-		return this.idAtraccion;
-	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -79,6 +79,10 @@ public class Atracciones extends Producto {
 			return false;
 		Atracciones other = (Atracciones) obj;
 		return idAtraccion == other.idAtraccion;
+	}
+
+	public int obtenerID() {
+		return this.idAtraccion;
 	}
 
 }

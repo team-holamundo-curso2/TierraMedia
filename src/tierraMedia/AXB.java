@@ -7,14 +7,14 @@ public class AXB extends Promociones {
 		super(id, tipo, nombre, promociones);
 		this.atraccionGratis = condicion;
 			}
-	
+
 	/**
 	 * post:Al costo total se le resta el costo de la última atracción de la promo.
 	 */
-	public void aplicarPromocion() {
+	public void aplicarPromocionAXB() {
 		double costoTotal = 0;
 		for (int i = 0; i < this.atracciones.size(); i++) {
-			if (atracciones.get(i).obtenerIdAtraccion() != this.obtenerAtraccionGratis()) {
+			if (atracciones.get(i).obtenerID() != this.obtenerAtraccionGratis()) {
 
 				costoTotal += this.atracciones.get(i).obtenerCosto();
 			}
@@ -26,4 +26,8 @@ public class AXB extends Promociones {
 		return this.atraccionGratis;
 	}
 
+	@Override
+	public void asignarCosto() {
+		this.aplicarPromocionAXB();
+		}
 }

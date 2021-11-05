@@ -34,10 +34,14 @@ public abstract class Producto {
 		this.tipo = tipo;
 		this.nombre = nombre;
 	}
+	
+	public abstract int obtenerID();
 
 	public abstract boolean hayCupo();
 
 	public abstract void restarCupo() throws SQLException;
+	
+	public abstract void reiniciarCupo() throws SQLException;
 
 	protected double obtenerCosto() {
 		return this.costo;

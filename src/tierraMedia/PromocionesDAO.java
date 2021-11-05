@@ -21,11 +21,10 @@ public class PromocionesDAO {
 		ResultSet resultados = statement.executeQuery();
 
 		while (resultados.next()) {
-			Promociones promo = crearPromociones(resultados);
-			//Calculo el costo de cada promocion aca? (porque lo tiene que hacer por cada una tambien)
-			//No estoy segura 
-			//aplicar a cada promocion el asignarCosto o el aplicarPromociones por cada una.
-			
+			try {
+			Promociones promo = crearPromociones(resultados.getInt(1), resultados.getString(4), resultados.getString(2),
+					resultados.getString(3), resultados.getDouble(5));
+
 			if (mapPromo.containsKey(promo)) {
 				List<Atracciones> atr = mapPromo.get(promo);
 				atr.addAll(consultarAtracciones(promo, atraccionesD));
@@ -35,9 +34,18 @@ public class PromocionesDAO {
 				atr.addAll(consultarAtracciones(promo, atraccionesD));
 				mapPromo.put(promo, atr);
 			}
+			} catch (ProductoException mti) {
+				System.err.println(mti.getMessage());
+			} catch (NumberFormatException error) {
+				System.err.println("El formato es incorrecto");
+			} catch (PromocionesException promerr) {
+				System.err.println(promerr.getMessage());
+			}
+			
 		}
 		for (Map.Entry<Promociones, List<Atracciones>> entry : mapPromo.entrySet()) {
 			entry.getKey().asignarListaAtracciones(entry.getValue());
+			entry.getKey().asignarCosto(); // APLICAR COSTO SEGUN PROMO
 			promociones.add(entry.getKey());
 		}
 		return promociones;
@@ -50,12 +58,12 @@ public class PromocionesDAO {
 		Connection conn = ConnectionProvider.getConnection();
 
 		PreparedStatement statement = conn.prepareStatement(sql);
-		statement.setInt(1, promo.obtenerIdPromocion());
+		statement.setInt(1, promo.obtenerID());
 		ResultSet resultado = statement.executeQuery();
 
 		while (resultado.next()) {
 			for (Atracciones atraccion : atraccionesD) {
-				if (resultado.getInt(1) == atraccion.obtenerIdAtraccion()) {
+				if (resultado.getInt(1) == atraccion.obtenerID()) {
 					atrFiltrada.add(atraccion);
 				}
 			}
@@ -90,58 +98,20 @@ public class PromocionesDAO {
 		return consulta;
 	}
 
-	public int queTipo() throws SQLException {
-		String sql = "SELECT PROMOCION.TIPO_PROMO_ID FROM PROMOCION";
-		Connection conn = ConnectionProvider.getConnection();
-		PreparedStatement statement = conn.prepareStatement(sql);
-		ResultSet resultados = statement.executeQuery();
+	private Promociones crearPromociones(int id, String tipo, String nombre, String tipoPromo, double condicion)
+			throws SQLException {
 
-		resultados.next();
-		int tipo = resultados.getInt(1);
-		return tipo;
-	}
+		if (tipoPromo.equals("ABSOLUTA")) {
 
-	private Promociones crearPromociones(ResultSet resultados) throws SQLException {
-		PromocionesDAO promo = new PromocionesDAO();
-		if (promo.queTipo() == 1) {
-			return new Absolutas(resultados.getInt(1), resultados.getString(4), resultados.getString(2), resultados.getString(3),
-					resultados.getDouble(5));
+			return new Absolutas(id, tipo, nombre, tipoPromo, condicion);
 		}
-		if (promo.queTipo() == 3) {
-			return new Porcentuales(resultados.getInt(1), resultados.getString(4), resultados.getString(2), resultados.getString(3),
-					resultados.getDouble(5));
+		if (tipoPromo.equals("PORCENTUALES")) {
+
+			return new Porcentuales(id, tipo, nombre, tipoPromo, condicion);
 		} else {
-			return new AXB(resultados.getInt(1), resultados.getString(4), resultados.getString(2), resultados.getString(3), resultados.getDouble(5));
+
+			return new AXB(id, tipo, nombre, tipoPromo, condicion);
 		}
 	}
 
-	public static void main(String[] args) throws SQLException {
-		List<Promociones> promociones = new ArrayList<Promociones>();
-		AtraccionesDAO atrDAO = new AtraccionesDAO();
-		System.out.println(atrDAO.crearListaDeAtracciones());
-		PromocionesDAO promoDAO = new PromocionesDAO();
-		System.out.println(promoDAO.crearListaDePromociones(atrDAO.crearListaDeAtracciones()));
-		System.out.println(promociones.addAll(promoDAO.crearListaDePromociones(atrDAO.crearListaDeAtracciones())));
-		System.out.println(promociones.get(0).atracciones.get(0).obtenerIdAtraccion());
-		System.out.println(promociones.get(0).atracciones.get(0).obtenerNombre());
-		promociones.get(0).aplicarPromocion();
-		System.out.println(promociones.get(0).obtenerCosto());
-		promociones.get(1).aplicarPromocion();
-		System.out.println(promociones.get(1).obtenerCosto());
-		System.out.println(promociones.get(1).obtenerAtracciones());
-		
-		System.out.println(promociones.get(2).obtenerCosto());
-		
-		promociones.get(3).aplicarPromocion();
-		System.out.println(promociones.get(3).obtenerCosto());
-		System.out.println(promociones.get(3).obtenerAtracciones());
-		System.out.println(promociones.get(3).atracciones.get(0).obtenerCosto());
-		System.out.println(promociones.get(3).atracciones.get(1).obtenerCosto());
-		System.out.println(promociones.get(3).atracciones.get(2).obtenerCosto());
-		
-		
-
-		
-
-	}
 }
