@@ -11,9 +11,9 @@ public class AttractionService {
 		return DAOFactory.getAttractionDAO().findAll();
 	}
 /* REVISAR LA CREACION DE ATRACCIONES*/
-	public Atracciones create(Integer id, String tipo, String nombre, Double costo, Double duration, Integer capacity ) {
+	public Atracciones create(Integer id, String tipo, String nombre, Double costo, Double duration, Integer capacity, String descripcion ) {
 
-		Atracciones attraction = new Atracciones(-1, tipo, nombre, costo, duration, capacity);
+		Atracciones attraction = new Atracciones(-1, tipo, nombre, costo, duration, capacity, descripcion);
 
 		if (attraction.esValido()) {
 			AtraccionDAO attractionDAO = DAOFactory.getAttractionDAO();
@@ -24,7 +24,7 @@ public class AttractionService {
 		return attraction;
 	}
 
-	public Atracciones update(Integer id, String name, Integer cost, Double duration, Integer capacity) {
+	public Atracciones update(Integer id, String name, Integer cost, Double duration, Integer capacity, String descripcion) {
 
 		AtraccionDAO attractionDAO = DAOFactory.getAttractionDAO();
 		Atracciones attraction = attractionDAO.find(id);
@@ -33,6 +33,7 @@ public class AttractionService {
 		attraction.establecerCosto(cost); 
 		attraction.establecerTiempo(duration);
 		attraction.obtenerCupoDePersonas(capacity);
+		attraction.establecerNombre(descripcion);
 
 		if (attraction.esValido()) {
 			attractionDAO.update(attraction);
@@ -43,7 +44,7 @@ public class AttractionService {
 	}
 
 	public void delete(Integer id) { /*REHACER CON EL CAMPO BORRADO*/
-		Atracciones attraction = new Atracciones(id, null, null, null, null,null);
+		Atracciones attraction = new Atracciones(id, null, null, null, null,null, null);
 
 		AtraccionDAO attractionDAO = DAOFactory.getAttractionDAO();
 		attractionDAO.delete(attraction);

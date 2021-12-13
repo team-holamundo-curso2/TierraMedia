@@ -16,15 +16,15 @@
 			<ul class="navbar-nav">
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						<c:out value="${usuario.nombre}"></c:out>
+						<c:out value="${user.obtenerNombre()}"></c:out>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-end"
 						aria-labelledby="navbarDropdown">
 						<li><a class="dropdown-item disabled" style="color: black;">
-							<i title="monedas" style="color: gold;" class="bi bi-coin"></i> <c:out value="${usuario.monedas}"></c:out>
+							<i title="monedas" style="color: gold;" class="bi bi-coin"></i> <c:out value="${user.obtenerMonedas()}"></c:out>
 						</a></li>
 						<li><a class="dropdown-item disabled" style="color: black;">
-							<i title="tiempo" style="color: blue;" class="bi bi-clock-fill"></i> <c:out value="${usuario.tiempo}h"></c:out>
+							<i title="tiempo" style="color: blue;" class="bi bi-clock-fill"></i> <c:out value="${user.obtenerTiempo()}h"></c:out>
 						</a></li>
 						<li><hr class="dropdown-divider"></li>
 						<li><a href="/turismo/logout" class="dropdown-item">Salir</a></li>

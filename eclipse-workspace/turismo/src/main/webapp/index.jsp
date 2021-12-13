@@ -10,7 +10,7 @@
 	<main class="container">
 		<div class="bg-light p-4 rounded">
 			<h1>
-				¡Bienvenido, <c:out value="${usuario.nombre}" />!
+				¡Bienvenido, <c:out value="${user.obtenerNombre()}"></c:out>!
 			</h1>
 		</div>
 	</main>

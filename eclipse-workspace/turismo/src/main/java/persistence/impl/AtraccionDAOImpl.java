@@ -13,8 +13,8 @@ import persistence.commons.ConnectionProvider;
 import persistence.commons.MissingDataException;
 
 public class AtraccionDAOImpl implements AtraccionDAO {
-	
-	/* NO RECONOCE LA CLASE ATRACCIONES*/
+
+	/* NO RECONOCE LA CLASE ATRACCIONES */
 
 	public List<Atracciones> findAll() {
 		try {
@@ -41,7 +41,7 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, id);
-			
+
 			ResultSet resultados = statement.executeQuery();
 
 			Atracciones attraction = null;
@@ -54,16 +54,21 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 			throw new MissingDataException(e);
 		}
 	}
-	 /* REVISAR QUE LOS GET COINCIDAN CON EL ORDEN DE LOS CONSTRUCTORES Y LA TABLA DE BD*/
+
+	/*
+	 * REVISAR QUE LOS GET COINCIDAN CON EL ORDEN DE LOS CONSTRUCTORES Y LA TABLA DE
+	 * BD
+	 */
 	private Atracciones toAttraction(ResultSet attractionRegister) throws SQLException {
 		return new Atracciones(attractionRegister.getInt(1), attractionRegister.getString(6),
-				attractionRegister.getString(2), attractionRegister.getDouble(5), attractionRegister.getDouble(3), attractionRegister.getInt(4));
+				attractionRegister.getString(2), attractionRegister.getDouble(5), attractionRegister.getDouble(3),
+				attractionRegister.getInt(4), attractionRegister.getString(9));
 	}
 
 	@Override
 	public int insert(Atracciones attraction) {
 		try {
-			String sql = "INSERT INTO ATRACCION (NOMBRE, COSTO, TIEMPO, CUPO) VALUES (?, ?, ?, ?)";
+			String sql = "INSERT INTO ATRACCION (NOMBRE, COSTO, TIEMPO, CUPO, DESCRIPCION, TIPO_ID) VALUES (?, ?, ?, ?, ?, ?)";
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -72,6 +77,9 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 			statement.setDouble(i++, attraction.obtenerCosto());
 			statement.setDouble(i++, attraction.obtenerTiempo());
 			statement.setInt(i++, attraction.obtenerCupo());
+			statement.setString(i++, attraction.obtenerDescripcion());
+			statement.setString(i++, attraction.obtenerTipo());
+			
 			int rows = statement.executeUpdate();
 
 			return rows;
@@ -87,7 +95,8 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 
 			PreparedStatement statement = conn.prepareStatement(sql);
 			int i = 1;
-			statement.setString(i++, attraction.obtenerNombre());  /* cambiamos de PROTECTED a PUBLIC...encapsulamiento??? */
+			statement.setString(i++,
+					attraction.obtenerNombre()); /* cambiamos de PROTECTED a PUBLIC...encapsulamiento??? */
 			statement.setDouble(i++, attraction.obtenerCosto());
 			statement.setDouble(i++, attraction.obtenerTiempo());
 			statement.setInt(i++, attraction.obtenerCupo());
@@ -132,7 +141,7 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 			throw new MissingDataException(e);
 		}
 	}
-	
+
 	public int actualizarCupo(Atracciones atr) throws SQLException {
 		String sql = "UPDATE ATRACCION SET CUPO = ? WHERE NOMBRE = ?";
 		Connection conn = ConnectionProvider.getConnection();
@@ -157,5 +166,4 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 		return rows;
 	}
 
-		
 }

@@ -10,16 +10,19 @@ import persistence.impl.AtraccionDAOImpl;
 public class Atracciones extends Producto {
 
 	private Integer idAtraccion;
-	private Double duration;
+	private Double tiempo;
 	private Integer cupoDePersonas;
+	private String descripcion;
+	
 
 	/* MAPA DE ERRORES - CAPTURAR POR EXCEPTION?? */
 	private Map<String, String> errores;
 
-	public Atracciones(Integer id, String tipo, String nombre, Double costo, Double duration, Integer capacity) {
+	public Atracciones(Integer id, String tipo, String nombre, Double costo, Double duration, Integer capacity, String descripcion) {
 		super(tipo, nombre, costo);
+		this.descripcion = descripcion;
 		this.idAtraccion = id;
-		this.duration = duration;
+		this.tiempo = duration;
 		this.cupoDePersonas = capacity;
 	}
 
@@ -34,7 +37,7 @@ public class Atracciones extends Producto {
 		if (costo <= 0) {
 			errores.put("cost", "Debe ser positivo");
 		}
-		if (duration <= 0) {
+		if (tiempo <= 0) {
 			errores.put("duration", "Debe ser positivo");
 		}
 		if (cupoDePersonas <= 0) {
@@ -49,6 +52,10 @@ public class Atracciones extends Producto {
 	public Integer obtenerId() {
 		return idAtraccion;
 	}
+	
+	public double obtenerTiempo() {
+		return tiempo;
+	}
 
 	public void establecerId(Integer id) {
 		this.idAtraccion = id;
@@ -57,9 +64,17 @@ public class Atracciones extends Producto {
 	public String obtenerNombre() {
 		return nombre;
 	}
+	
+	public String obtenerDescripcion() {
+		return descripcion;
+	}
 
 	public void establecerNombre(String name) {
 		this.nombre = name;
+	}
+	
+	public void establecerDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public Integer obtenerCupo() {

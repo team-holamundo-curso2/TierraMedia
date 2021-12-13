@@ -8,9 +8,9 @@ import persistence.commons.UsuarioException;
 
 public class LoginService {
 
-	public Usuario login(String username) throws UsuarioException {
+	public Usuario login(String nombre) throws UsuarioException {
 		UsuarioDAO userDao = DAOFactory.getUserDAO();
-    	Usuario user = userDao.findByUsername(username);
+    	Usuario user = userDao.findByUsername(nombre);
     	
     	if (user.isNull()) {
     		user = NullUser.build();

@@ -32,7 +32,7 @@
 			<h1>Estas son las atracciones de la Tierra Media</h1>
 		</div>
 
-		<c:if test="${usuario.esAdmin()}">
+		<c:if test="${user.esAdmin()}">
 			<div class="mb-3">
 				<a href="/turismo/attractions/create.do" class="btn btn-primary"
 					role="button"> <i class="bi bi-plus-lg"></i> Nueva Atracción
@@ -53,26 +53,24 @@
 			
 				<c:forEach items="${atraccion}" var="atraccion">
 					<tr>
-						<td><strong><c:out value="${atraccion.nombre}"></c:out></strong>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Cras pretium eros urna. Sed quis erat congue, bibendum tortor
-								malesuada, iaculis diam. Ut ut imperdiet sapien.</p></td>
-						<td><c:out value="${atraccion.costo}"></c:out></td>
-						<td><c:out value="${atraccion.tiempo}"></c:out></td>
-						<td><c:out value="${atraccion.cupo}"></c:out></td>
+						<td><strong><c:out value="${atraccion.obtenerNombre()}"></c:out></strong>
+							 <p><c:out value="${atraccion.obtenerDescripcion()}"></c:out></p> </td>
+						<td><c:out value="${atraccion.obtenerCosto()}"></c:out></td>
+						<td><c:out value="${atraccion.obtenerTiempo()}"></c:out></td>
+						<td><c:out value="${atraccion.obtenerCupo()}"></c:out></td>
 
-						<td><c:if test="${usuario.admin}">
-								<a href="/turismo/attractions/edit.do?id=${atraccion.id}"
+						<td><c:if test="${user.esAdmin()}">
+								<a href="/turismo/attractions/edit.do?id=${atraccion.obtenerId()}"
 									class="btn btn-light rounded-0" role="button"><i
 									class="bi bi-pencil-fill"></i></a>
-								<a href="/turismo/attractions/delete.do?id=${atraccion.id}"
+								<a href="/turismo/attractions/delete.do?id=${atraccion.obtenerId()}"
 									class="btn btn-danger rounded" role="button"><i
 									class="bi bi-x-circle-fill"></i></a>
 							</c:if> <c:choose>
 
 								<c:when
-									test="${usuario.puedePagarlo(atraccion) && usuario.tieneTiempo(atraccion) && atraccion.hayCupo()}">
-									<a href="/turismo/attractions/buy.do?id=${atraccion.id}"
+									test="${user.puedePagarlo(atraccion) && user.tieneTiempo(atraccion) && atraccion.hayCupo()}">
+									<a href="/turismo/attractions/buy.do?id=${atraccion.obtenerId()}"
 										class="btn btn-success rounded" role="button">Comprar</a>
 								</c:when>
 								<c:otherwise>

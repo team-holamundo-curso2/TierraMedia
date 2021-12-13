@@ -27,8 +27,8 @@ public class ListAttractionsServlet extends HttpServlet implements Servlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		List<Atracciones> attractions = attractionService.list();
-		req.setAttribute("attractions", attractions);
+		List<Atracciones> atraccion = attractionService.list();
+		req.setAttribute("atraccion", atraccion);
 
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/views/attractions/index.jsp");
 		dispatcher.forward(req, resp);

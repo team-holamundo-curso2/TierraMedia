@@ -6,6 +6,11 @@
 			required value="${attraction.name}">
 	</div>
 	<div class="mb-3">
+		<label for="descripcion" class="col-form-label">Descripcion:</label> <input
+			type="text" class="form-control" id="descripcion" name="descripcion"
+			required value="${attraction.descripcion}">
+	</div>
+	<div class="mb-3">
 		<label for="tipo" class="col-form-label">Tipo:</label> <input
 			type="text" class="form-control" id="tipo" name="tipo"
 			required value="${attraction.tipo}">
