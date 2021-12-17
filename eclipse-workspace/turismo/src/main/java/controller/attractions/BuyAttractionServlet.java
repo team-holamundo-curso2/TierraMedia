@@ -2,6 +2,7 @@ package controller.attractions;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.servlet.RequestDispatcher;
@@ -32,7 +33,7 @@ public class BuyAttractionServlet extends HttpServlet {
 
 		Integer attractionId = Integer.parseInt(req.getParameter("id"));
 		Usuario user = (Usuario) req.getSession().getAttribute("user");
-		Map<String, String> errors = null;
+		Map<String, String> errors = new HashMap<String, String>();
 		try {
 			errors = buyAttractionService.buy(user.obtenerId(), attractionId);
 		} catch (AtraccionException | SQLException e) {

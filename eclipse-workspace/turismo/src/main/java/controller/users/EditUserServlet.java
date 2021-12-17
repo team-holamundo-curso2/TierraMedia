@@ -36,15 +36,15 @@ public class EditUserServlet extends HttpServlet implements Servlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String username = req.getParameter("username");
+		String username = req.getParameter("nombre");
 		Integer preferencia = Integer.parseInt(req.getParameter("preferencia"));
-		Integer coins = Integer.parseInt(req.getParameter("coins"));
-		Double time = Double.parseDouble(req.getParameter("time"));
+		Double monedas = Double.parseDouble(req.getParameter("monedas"));
+		Double time = Double.parseDouble(req.getParameter("tiempo"));
 		Integer id = Integer.parseInt(req.getParameter("id"));
 
 		Usuario tmp_user = null;
 		try {
-			tmp_user = userService.update(id, username, preferencia, coins, time, false, false);
+			tmp_user = userService.update(id, username, preferencia, monedas, time, false, false);
 		} catch (UsuarioException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

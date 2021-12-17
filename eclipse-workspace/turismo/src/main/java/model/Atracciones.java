@@ -10,20 +10,19 @@ import persistence.impl.AtraccionDAOImpl;
 public class Atracciones extends Producto {
 
 	private Integer idAtraccion;
-	private Double tiempo;
+	//private Double tiempo;
 	private Integer cupoDePersonas;
 	private String descripcion;
-	
-
-	/* MAPA DE ERRORES - CAPTURAR POR EXCEPTION?? */
+	private Integer borrado;
 	private Map<String, String> errores;
 
-	public Atracciones(Integer id, String tipo, String nombre, Double costo, Double duration, Integer capacity, String descripcion) {
+	public Atracciones(Integer id, String tipo, String nombre, Double costo, Double duration, Integer capacity, String descripcion, Integer borrado) {
 		super(tipo, nombre, costo);
 		this.descripcion = descripcion;
 		this.idAtraccion = id;
-		this.tiempo = duration;
+		this.tiempoDeDuracion = duration;
 		this.cupoDePersonas = capacity;
+		this.borrado = borrado;
 	}
 
 	public boolean esValido() {
@@ -37,15 +36,22 @@ public class Atracciones extends Producto {
 		if (costo <= 0) {
 			errores.put("cost", "Debe ser positivo");
 		}
-		if (tiempo <= 0) {
+		if (tiempoDeDuracion <= 0) {
 			errores.put("duration", "Debe ser positivo");
 		}
 		if (cupoDePersonas <= 0) {
 			errores.put("capacity", "Debe ser positivo");
 		}
 	}
+	
+	public boolean estaBorrado() {
+	return this.borrado == 1; 
+		
 
-	public Map<String, String> obtenerErrores() {
+		}
+
+	public Map<String, String> getErrores() {
+		
 		return errores;
 	}
 
@@ -54,7 +60,7 @@ public class Atracciones extends Producto {
 	}
 	
 	public double obtenerTiempo() {
-		return tiempo;
+		return tiempoDeDuracion;
 	}
 
 	public void establecerId(Integer id) {
@@ -112,6 +118,18 @@ public class Atracciones extends Producto {
 		return super.tipo;
 	}
 	
+	public int establecerTipo() {
+		int tipo;
+		if (this.obtenerTipo().equals("AVENTURA")) {
+			tipo = 1;
+		} else if (this.obtenerTipo().equals("PAISAJE")) {
+			tipo = 2;			
+		} else {
+			tipo = 3;
+		}
+		return tipo;
+	}
+	
 	@Override
 	public boolean contiene(Producto p) {
 		if (p.esPromocion()) {
@@ -145,7 +163,7 @@ public class Atracciones extends Producto {
 		return this.idAtraccion;
 	}
 
-	public void establecerCosto(Integer cost) {
+	public void establecerCosto(Double cost) {
 		this.costo = cost;
 		
 	}

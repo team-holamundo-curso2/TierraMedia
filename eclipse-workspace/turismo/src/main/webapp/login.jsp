@@ -17,7 +17,7 @@
 			<c:if test="${flash != null}">
 				<div class="alert alert-danger">
 					<p>
-						<c:out value="${flash}" />
+						<c:out value="${flash}" ></c:out>
 					</p>
 				</div>
 			</c:if>

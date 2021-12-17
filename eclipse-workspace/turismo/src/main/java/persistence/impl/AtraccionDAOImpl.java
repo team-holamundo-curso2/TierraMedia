@@ -18,7 +18,7 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 
 	public List<Atracciones> findAll() {
 		try {
-			String sql = "SELECT * FROM ATRACCION";
+			String sql = "SELECT * FROM ATRACCION WHERE BORRADO = 0";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
@@ -48,7 +48,7 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 			if (resultados.next()) {
 				attraction = toAttraction(resultados);
 			}
-
+			System.out.println(attraction);
 			return attraction;
 		} catch (Exception e) {
 			throw new MissingDataException(e);
@@ -62,8 +62,9 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 	private Atracciones toAttraction(ResultSet attractionRegister) throws SQLException {
 		return new Atracciones(attractionRegister.getInt(1), attractionRegister.getString(6),
 				attractionRegister.getString(2), attractionRegister.getDouble(5), attractionRegister.getDouble(3),
-				attractionRegister.getInt(4), attractionRegister.getString(9));
-	}
+				attractionRegister.getInt(4), attractionRegister.getString(9), attractionRegister.getInt(7));
+	}// Atracciones(Integer id, String tipo, String nombre, Double costo, Double
+		// duration, Integer capacity, String descripcion, Integer borrado)
 
 	@Override
 	public int insert(Atracciones attraction) {
@@ -78,8 +79,8 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 			statement.setDouble(i++, attraction.obtenerTiempo());
 			statement.setInt(i++, attraction.obtenerCupo());
 			statement.setString(i++, attraction.obtenerDescripcion());
-			statement.setString(i++, attraction.obtenerTipo());
-			
+			statement.setInt(i++, attraction.establecerTipo());
+
 			int rows = statement.executeUpdate();
 
 			return rows;
@@ -90,17 +91,18 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 
 	public int update(Atracciones attraction) {
 		try {
-			String sql = "UPDATE ATRACCION SET NOMBRE = ?, COSTO = ?, TIEMPO = ?, CUPO = ? WHERE ID = ?";
+			String sql = "UPDATE ATRACCION SET NOMBRE = ?, COSTO = ?, TIEMPO = ?, CUPO = ?, DESCRIPCION = ? WHERE ID = ?";
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
 			int i = 1;
-			statement.setString(i++,
-					attraction.obtenerNombre()); /* cambiamos de PROTECTED a PUBLIC...encapsulamiento??? */
+			statement.setString(i++, attraction.obtenerNombre());
 			statement.setDouble(i++, attraction.obtenerCosto());
 			statement.setDouble(i++, attraction.obtenerTiempo());
 			statement.setInt(i++, attraction.obtenerCupo());
+			statement.setString(i++, attraction.obtenerDescripcion());
 			statement.setInt(i++, attraction.obtenerId());
+			
 			int rows = statement.executeUpdate();
 
 			return rows;

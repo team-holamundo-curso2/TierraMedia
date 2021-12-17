@@ -38,7 +38,7 @@ public class EditAttractionServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Integer id = Integer.parseInt(req.getParameter("id"));
 		String name = req.getParameter("name");
-		Integer cost = Integer.parseInt(req.getParameter("cost"));
+		Double cost = Double.parseDouble(req.getParameter("cost"));
 		// Integer cost = req.getParameter("cost").trim() == "" ? null : Integer.parseInt(req.getParameter("cost"));
 		Double duration = Double.parseDouble(req.getParameter("duration"));
 		Integer capacity = Integer.parseInt(req.getParameter("capacity"));

@@ -34,14 +34,14 @@ public class CreateUserServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String username = req.getParameter("username");
+		String username = req.getParameter("nombre");
+		Double monedas = Double.parseDouble(req.getParameter("monedas"));
+		Double time = Double.parseDouble(req.getParameter("tiempo"));
 		Integer preferencia = Integer.parseInt(req.getParameter("preferencia"));
-		Integer coins = Integer.parseInt(req.getParameter("coins"));
-		Double time = Double.parseDouble(req.getParameter("time"));
 
 		Usuario tmp_user = null;
 		try {
-			tmp_user = userService.create(-1, username, preferencia, coins, time, false, false);
+			tmp_user = userService.create(-1, username, preferencia, monedas, time, false, false);
 		} catch (UsuarioException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

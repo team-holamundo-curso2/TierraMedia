@@ -11,7 +11,7 @@
 
 	<main class="container">
 
-		<c:if test="${tmp_user != null && !tmp_user.isValid()}">
+		<c:if test="${tmp_user != null && !tmp_user.esValido()}">
 			<div class="alert alert-danger">
 				<p>Se encontraron errores al crear el usuario.</p>
 			</div>

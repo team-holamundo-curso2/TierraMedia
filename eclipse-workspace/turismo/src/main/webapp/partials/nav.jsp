@@ -12,6 +12,20 @@
 			<ul class="navbar-nav me-auto mb-2 mb-md-0">
 				<li class="nav-item"><a class="nav-link active"
 					aria-current="page" href="/turismo/attractions/index.do">Atracciones</a></li>
+			
+		
+			<c:if test="${user.esAdmin()}">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/turismo/users/index.do">Usuarios</a></li>
+				</c:if>
+				
+				
+			<c:if test="${!user.esAdmin()}">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/turismo/users/historial.do">Mis Compras</a></li>
+				</c:if>
+			
+			
 			</ul>
 			<ul class="navbar-nav">
 				<li class="nav-item dropdown">

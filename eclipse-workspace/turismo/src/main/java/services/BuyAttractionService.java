@@ -45,7 +45,7 @@ public class BuyAttractionService {
 		if (errors.isEmpty()) {
 			user.agregarAItinerario(attraction);
 			attraction.restarCupo();
-               // REVISAR QUE NO RESTE DOBLE			
+              		
 
 			attractionDAO.update(attraction);
 			userDAO.update(user);

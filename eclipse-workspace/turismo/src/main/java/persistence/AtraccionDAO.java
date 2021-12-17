@@ -38,7 +38,7 @@ public interface AtraccionDAO extends GenericDAO<Atracciones> {
 
 	private static Atracciones crearAtracciones(ResultSet resultados) throws SQLException {
 		return new Atracciones(resultados.getInt(1), resultados.getString(6), resultados.getString(2),
-				resultados.getDouble(3), resultados.getDouble(4), resultados.getInt(5), resultados.getString(9));
+				resultados.getDouble(3), resultados.getDouble(4), resultados.getInt(5), resultados.getString(9),resultados.getInt(7));
 	}
 
 	public static int actualizarCupo(Atracciones atr) throws SQLException {

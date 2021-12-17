@@ -18,6 +18,7 @@
 					<c:out value="${flash}" />
 					<c:if test="${errors != null}">
 						<ul>
+							<c:set var="entry"></c:set>
 							<c:forEach items="${errors}" var="entry">
 								<li><c:out value="${entry.getValue()}"></c:out></li>
 							</c:forEach>
@@ -26,12 +27,11 @@
 				</p>
 			</div>
 		</c:if>
-
 		<div class="bg-light p-4 mb-3 rounded">
 			<h1>Usuarios</h1>
 		</div>
 
-		<c:if test="${usuario.isAdmin()}">
+		<c:if test="${user.esAdmin()}">
 			<div class="mb-3">
 				<a href="/turismo/users/create.do" class="btn btn-primary"
 					role="button"> <i class="bi bi-plus-lg"></i> Nuevo Usuario
@@ -49,26 +49,25 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${users}" var="tmp_user">
+				<c:forEach items="${usuario}" var="tmp_user">
 					<tr>
-						<td><strong><c:out value="${tmp_user.username}"></c:out></strong></td>
-						<td><c:out value="${tmp_user.coins}"></c:out></td>
-						<td><c:out value="${tmp_user.time}"></c:out></td>
-						<td>
-							<c:choose>
-								<c:when test="${tmp_user.admin}">
+						<td><strong><c:out
+									value="${tmp_user.obtenerNombre()}"></c:out></strong></td>
+						<td><c:out value="${tmp_user.obtenerMonedas()}"></c:out></td>
+						<td><c:out value="${tmp_user.obtenerTiempo()}"></c:out></td>
+						<td><c:choose>
+								<c:when test="${tmp_user.esAdmin()}">
 									Admin
 								</c:when>
 								<c:otherwise>
 									Normal
 								</c:otherwise>
-							</c:choose>						
-						</td>
-						<td><c:if test="${user.admin && (!tmp_user.admin || tmp_user.id == user.id)}">
-								<a href="/turismo/users/edit.do?id=${tmp_user.id}"
+							</c:choose></td>
+						<td><c:if test="${!tmp_user.esAdmin()}">
+								<a href="/turismo/users/edit.do?id=${tmp_user.obtenerId()}"
 									class="btn btn-light rounded-0" role="button"><i
 									class="bi bi-pencil-fill"></i></a>
-								<a href="/turismo/users/delete.do?id=${tmp_user.id}"
+								<a href="/turismo/users/delete.do?id=${tmp_user.obtenerId()}"
 									class="btn btn-danger rounded" role="button"><i
 									class="bi bi-x-circle-fill"></i></a>
 							</c:if></td>
@@ -76,7 +75,6 @@
 				</c:forEach>
 			</tbody>
 		</table>
-
 	</main>
 
 </body>

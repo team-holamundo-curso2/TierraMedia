@@ -39,11 +39,12 @@ public class Usuario {
 	public void aceptar(Producto producto) throws AtraccionException, SQLException {
 		this.monedas -= producto.obtenerCosto();
 		this.tiempoDisponible -= producto.obtenerTiempo();
+		this.itinerario.add(producto);
+		UsuarioDAOImpl uDAO = new UsuarioDAOImpl();
+		uDAO.actualizarItinerario(this);
 	}
 
-	/* NO VA ATTRACTION, ES NUESTRO PRODUCTO */
-
-	public boolean puedePagarlo(Atracciones attraction) {
+	public boolean puedePagarlo(Producto attraction) {
 		return attraction.obtenerCosto() <= this.monedas;
 	}
 
@@ -101,7 +102,6 @@ public class Usuario {
 
 	public void agregarAItinerario(Producto productosOfrecido) throws AtraccionException, SQLException {
 		this.aceptar(productosOfrecido);
-		this.itinerario.add(productosOfrecido);
 
 	}
 
@@ -109,7 +109,7 @@ public class Usuario {
 		return this.itinerario;
 	}
 
-	public List<Producto> consultarItinerario(List<Producto> productos, Usuario user) throws SQLException {
+	public List<Producto> consultarItinerario(List<Atracciones> productos, Usuario user) throws SQLException {
 		UsuarioDAOImpl uDAO = new UsuarioDAOImpl();
 		if (uDAO.consultaPrimerUso(user) >= 1) {
 			user.cargarItinerario(uDAO.filtrarProductos(productos, user));
@@ -159,7 +159,7 @@ public class Usuario {
 	}
 
 	public void validar() {
-		HashMap<String, String> errors = new HashMap<String, String>();
+		errors = new HashMap<String, String>();
 
 		if (monedas < 0) {
 			errors.put("monedas", "No debe ser negativo");
@@ -169,13 +169,12 @@ public class Usuario {
 		}
 	}
 
-
 	public boolean esValido() {
 		validar();
 		return errors.isEmpty();
 	}
 
-	public Map<String, String> obtenerErrors() {
+	public Map<String, String> getErrors() {
 
 		return errors;
 	}
